@@ -100,6 +100,10 @@ la última.
 Y no borres los datos del navegador para esta dirección: se lleva la biblioteca
 por delante. La copia guardada es la vuelta atrás.
 
+Lo único que sale del navegador es una cuenta de visitas: la app carga
+Cloudflare Web Analytics, que no pone cookies, no identifica a nadie y no ve lo
+que hay en tu biblioteca. Dice cuánta gente abrió la página, y nada más.
+
 Para traer una biblioteca, **Importar** lee los CSV de Goodreads, StoryGraph,
 Pagebound y Letterboxd, con notas, fechas, estantes y reseñas.
 

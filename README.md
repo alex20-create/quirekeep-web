@@ -98,6 +98,11 @@ long it has been since the last one.
 And avoid clearing your browser's site data for this address: it deletes the
 library along with it. The saved copy is the way back.
 
+The one thing that does leave the browser is a visit count: the app loads
+Cloudflare Web Analytics, which sets no cookies, identifies nobody, and never
+sees what is in your library. It says how many people opened the page, and
+nothing else.
+
 To bring a library in, **Import** reads CSV exports from Goodreads, StoryGraph,
 Pagebound and Letterboxd: ratings, dates, shelves and reviews included.
 
