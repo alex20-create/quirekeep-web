@@ -4,6 +4,8 @@
 
 **[Open the app → quirekeep.pages.dev](https://quirekeep.pages.dev)**
 
+[![Quirekeep's library on a desktop screen](docs/assets/escritorio-biblioteca-claro.png)](https://quirekeep.pages.dev)
+
 A personal library for the three things you keep track of separately and never
 in one place: **books, screen (film and TV) and games**. It runs in the browser,
 needs no account and no server, and everything you write stays on your device.
@@ -44,6 +46,28 @@ up-next queue of five, light and dark themes, and Spanish and English.
 
 On a phone it grows a bottom bar and you move between screens by swiping
 sideways; on a wide screen it is a three-column desktop app.
+
+---
+
+## What it looks like
+
+Real screenshots, not mockups. Same app, one layout for a phone and one for a
+wide screen, in the theme you pick.
+
+| Home | Library | A title |
+|---|---|---|
+| ![The three sectors on a phone](docs/assets/movil-inicio-oscuro.png) | ![A library of covers on a phone](docs/assets/movil-biblioteca-oscuro.png) | ![One book's page on a phone](docs/assets/movil-ficha-oscuro.png) |
+| The three sectors at once: what you have started, and what comes next. | Filter, sort, and switch between covers and a list. | Rating, progress, shelves, tags, and which accounts already have it. |
+
+On a wide screen the three sectors become three doors:
+
+![The three sectors side by side on a desktop screen](docs/assets/escritorio-inicio-oscuro.png)
+
+And both themes are real designs, not one inverted:
+
+<p align="center">
+  <img src="docs/assets/movil-inicio-claro.png" alt="The same home screen in the light theme" width="300" />
+</p>
 
 ---
 

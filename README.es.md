@@ -4,6 +4,8 @@
 
 **[Abrir la app → quirekeep.pages.dev](https://quirekeep.pages.dev)**
 
+[![La biblioteca de Quirekeep en una pantalla de escritorio](docs/assets/escritorio-biblioteca-claro.png)](https://quirekeep.pages.dev)
+
 Una biblioteca personal para las tres cosas que se llevan por separado y nunca
 en el mismo sitio: **libros, pantalla (cine y series) y juegos**. Va en el
 navegador, no pide cuenta ni servidor, y todo lo que escribes se queda en tu
@@ -45,6 +47,28 @@ cinco siguientes, tema claro y oscuro, y español e inglés.
 
 En el móvil aparece la barra de abajo y se cambia de pantalla deslizando de
 lado; en pantalla ancha es una aplicación de escritorio a tres columnas.
+
+---
+
+## Cómo se ve
+
+Capturas de verdad, no maquetas. La misma app, con una disposición para el
+móvil y otra para pantalla ancha, en el tema que elijas.
+
+| Inicio | Biblioteca | Una obra |
+|---|---|---|
+| ![Los tres sectores en el móvil](docs/assets/movil-inicio-oscuro.png) | ![Una biblioteca de portadas en el móvil](docs/assets/movil-biblioteca-oscuro.png) | ![La ficha de un libro en el móvil](docs/assets/movil-ficha-oscuro.png) |
+| Los tres sectores de un vistazo: lo empezado y lo que viene ahora. | Filtra, ordena, y cambia entre portadas y lista. | Nota, avance, estantes, etiquetas y qué cuentas la tienen ya. |
+
+En pantalla ancha los tres sectores son tres puertas:
+
+![Los tres sectores uno al lado del otro en escritorio](docs/assets/escritorio-inicio-oscuro.png)
+
+Y los dos temas están diseñados aparte, no es uno dado la vuelta:
+
+<p align="center">
+  <img src="docs/assets/movil-inicio-claro.png" alt="La misma pantalla de inicio en el tema claro" width="300" />
+</p>
 
 ---
 
