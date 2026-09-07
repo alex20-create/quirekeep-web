@@ -52,7 +52,8 @@ sideways; on a wide screen it is a three-column desktop app.
 ## Support it
 
 Quirekeep is free, has no ads, no accounts and nothing to unlock. If it earns
-its place, you can chip in at **[ko-fi.com/alex_create](https://ko-fi.com/alex_create)**.
+its place, you can chip in at:
+**[ko-fi.com/alex_create](https://ko-fi.com/alex_create)**.
 
 ---
 
