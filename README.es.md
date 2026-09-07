@@ -50,6 +50,14 @@ lado; en pantalla ancha es una aplicación de escritorio a tres columnas.
 
 ---
 
+## Apoyar el proyecto
+
+Quirekeep es gratis, sin anuncios, sin cuentas y sin nada que desbloquear. Si
+te sirve, puedes echar una mano en
+**[ko-fi.com/alex_create](https://ko-fi.com/alex_create)**.
+
+---
+
 ## Cómo se ve
 
 Capturas de verdad, no maquetas. La misma app, con una disposición para el
@@ -162,14 +170,6 @@ que es lo que permite saber que un episodio todavía no ha salido.
 Cine, series y juegos no tienen ninguna fuente de portadas sin clave, así que
 enseñan una tarjeta de color con el título. Donde el navegador lo permite, el
 ISBN se puede escanear con la cámara en vez de teclearlo.
-
----
-
-## Apoyar el proyecto
-
-Quirekeep es gratis, sin anuncios, sin cuentas y sin nada que desbloquear. Si
-te sirve, puedes echar una mano en
-**[ko-fi.com/alex_create](https://ko-fi.com/alex_create)**.
 
 ---
 

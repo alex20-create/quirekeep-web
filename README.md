@@ -49,6 +49,13 @@ sideways; on a wide screen it is a three-column desktop app.
 
 ---
 
+## Support it
+
+Quirekeep is free, has no ads, no accounts and nothing to unlock. If it earns
+its place, you can chip in at **[ko-fi.com/alex_create](https://ko-fi.com/alex_create)**.
+
+---
+
 ## What it looks like
 
 Real screenshots, not mockups. Same app, one layout for a phone and one for a
@@ -162,13 +169,6 @@ what lets the app know an episode has not aired yet.
 Film, TV and games have no keyless source of cover art, so they show a coloured
 card with the title instead. Where the browser supports it, an ISBN can be
 scanned with the camera instead of typed.
-
----
-
-## Support it
-
-Quirekeep is free, has no ads, no accounts and nothing to unlock. If it earns
-its place, you can chip in at **[ko-fi.com/alex_create](https://ko-fi.com/alex_create)**.
 
 ---
 
