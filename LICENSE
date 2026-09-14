@@ -13,3 +13,15 @@ grants any right over the software behind it.
 
 The data the application reads at runtime belongs to its sources — Open
 Library, Wikidata and TVMaze — and is subject to their terms, not to this one.
+
+Third-party components keep their own licences. The application bundles react,
+react-dom, scheduler, papaparse and workbox, all under the MIT Licence, whose
+copyright notices travel with the application. The fonts are served by Google
+Fonts under the SIL Open Font License.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
