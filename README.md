@@ -6,46 +6,58 @@
 
 [![Quirekeep's library on a desktop screen](docs/assets/escritorio-biblioteca-claro.png)](https://quirekeep.pages.dev)
 
-A personal library for the three things you keep track of separately and never
-in one place: **books, screen (film and TV) and games**. It runs in the browser,
-needs no account and no server, and everything you write stays on your device.
+Quirekeep is a notebook for the things you read, watch and play. **Books** in
+one place, **films and series** in another, **games** in a third, and all
+three in the same app.
 
-The name is the point: a *quire* is a gathering of folded sheets, the unit a
-book is bound from. This keeps yours.
+You need no account and there is nothing to sign up for. What you write stays
+on your phone or computer, and nobody else sees it.
+
+The name comes from bookbinding: a *quire* is a bundle of folded pages, the
+piece a book is sewn together from. This app keeps yours.
 
 ---
 
-## What it does
+## What you can do with it
 
-Each of the three **sectors** is a library of its own, with the same six
-screens, and each keeps its own settings, shelves and statistics:
+Think of three bookcases in one room: one for books, one for films and series,
+one for games. Each one works the same way.
 
-| Screen | What it is for |
-|---|---|
-| **Library** | Everything in that sector. Filter by status, genre, language, format, shelf or tag; sort; switch between a grid of covers and a list. |
-| **Shelves** | Your own shelves. A title can sit on as many as you like. |
-| **Stats** | Counts, ratings, what you read, in which languages, and how much of it each connected app knows about. |
-| **Sync queue** | The titles a connected service is missing, with their data ready to copy and a link to that service's search. |
-| **Import and export** | CSV in, JSON out, backups in and out. |
-| **Add** | One form, mostly filled in by searching the title. |
+- **Keep a list** of everything you have read, watched or played, and of what
+  you want to start next.
+- **Mark where you are**: the page, the minute, the episode or a percentage.
+- **Give it a mark** out of ten and write private notes.
+- **Make your own shelves**, like "Summer holidays" or "Watch with Ana". A title
+  can be on as many as you like.
+- **See your numbers**: how much you have finished, in which languages, what you
+  like most.
+- **Set yourself challenges**, like "24 books this year", or a list of prompts
+  ("a book set in winter") that you fill in as you go.
 
-And three screens that are not about one sector:
+There are also three pages that bring everything together:
 
-- **Home** — the three sectors at a glance: what you have started, what comes
-  next, and what is released soon. Mark an episode watched or a book finished
-  from here.
-- **Shelf** — a single shelf across all three sectors: what is in progress, in
-  one row per sector.
-- **Challenges** — reading, watching and playing challenges: a target ("24
-  books in 2026") or a list of prompts you assign titles to. Each one belongs
-  to a sector and counts with that sector's titles.
+- **Home** shows what you are in the middle of, in all three at once. You can
+  mark an episode as watched or a book as finished right there, and choose the
+  order: how far along you are, when you added it, alphabetical, or just the
+  way you like. On a phone, keep your finger on a title to change how it is
+  going.
+- **Shelf** shows what you have on the go now, what comes next, and what you
+  have finished.
+- **Challenges** shows how each of your challenges is going.
 
-Also: a rating out of ten, per-title progress (pages, minutes, hours, episodes
-or a plain percentage), reading history with re-reads, private notes, an
-up-next queue of five, light and dark themes, and Spanish and English.
+### Each title fills itself in
 
-On a phone it grows a bottom bar and you move between screens by swiping
-sideways; on a wide screen it is a three-column desktop app.
+When you open a title, the app looks up what it can and adds what is missing:
+a short summary in your language, who made it (author, director, writers,
+studio, the original publisher), and the actors with the characters they play.
+It never changes anything you wrote yourself.
+
+For a book, you can also pick **the edition you have**: the publisher, the
+year, the cover and the number of pages. If you were halfway through, you stay
+halfway through in the new edition.
+
+The app speaks **English and Spanish**, and comes in a dark look and a light,
+paper-like one.
 
 ---
 
@@ -59,19 +71,20 @@ its place, you can chip in at:
 
 ## What it looks like
 
-Real screenshots, not mockups. Same app, one layout for a phone and one for a
-wide screen, in the theme you pick.
+Real screenshots, not drawings. The same app, arranged one way on a phone and
+another on a big screen.
 
 | Home | Library | A title |
 |---|---|---|
 | ![The three sectors on a phone](docs/assets/movil-inicio-oscuro.png) | ![A library of covers on a phone](docs/assets/movil-biblioteca-oscuro.png) | ![One book's page on a phone](docs/assets/movil-ficha-oscuro.png) |
-| The three sectors at once: what you have started, and what comes next. | Filter, sort, and switch between covers and a list. | Rating, progress, shelves, tags, and which accounts already have it. |
+| Books, films and games at once: what you have started, and what comes next. | Everything you have, with covers or as a list. | The mark, where you are, and everything about the title. |
 
-On a wide screen the three sectors become three doors:
+On a big screen, books, films and games sit side by side:
 
 ![The three sectors side by side on a desktop screen](docs/assets/escritorio-inicio-oscuro.png)
 
-And both themes are real designs, not one inverted:
+And the light look is designed on its own, not just the dark one with the
+colours swapped:
 
 <p align="center">
   <img src="docs/assets/movil-inicio-claro.png" alt="The same home screen in the light theme" width="300" />
@@ -79,102 +92,106 @@ And both themes are real designs, not one inverted:
 
 ---
 
-## Getting the app
+## How to get it
 
-Quirekeep is not in the App Store or Google Play, and there is no installer to
-download. It is a web app: you open one address and tell the browser to keep
-it. From then on it sits with your other apps, opens like them, and works with
-the phone in flight mode.
+Quirekeep is not in the App Store or Google Play, and there is nothing to
+download. It lives at a web address, and your browser can keep it for you like
+an app: with its own icon, opening on its own, and working even with no
+internet.
 
 > **The address: https://quirekeep.pages.dev**
 
-**On Android** — open the address in Chrome, then the ⋮ menu at the top right
-and *Install app* (older versions say *Add to Home screen*). Say yes.
+**On an Android phone** — open the address in Chrome. Tap the three dots at
+the top right, then *Install app* (on older phones it says *Add to Home
+screen*). Say yes.
 
-**On iPhone or iPad** — open the address **in Safari**, not in another browser.
-Tap the share button (the square with an arrow going up), scroll the list, and
-tap *Add to Home Screen*.
+**On an iPhone or iPad** — open the address **in Safari** (it has to be
+Safari). Tap the share button, the square with an arrow pointing up, scroll
+down and tap *Add to Home Screen*.
 
-**On Windows or Mac** — open the address in Chrome or Edge. At the right-hand
-end of the address bar there is a small install icon (a screen with an arrow);
-click it, or find *Install Quirekeep* in the browser's ⋮ menu. Firefox does not
-install apps: there it works, but it stays a tab.
+**On a Windows or Mac computer** — open the address in Chrome or Edge. At the
+right end of the bar where the address is written there is a small icon of a
+screen with an arrow: click it. Or look for *Install Quirekeep* in the
+browser's menu. Firefox cannot do this; the app still works there, but as a
+normal tab.
 
-**If there is no install option**, the browser is usually in a private window.
-That alone stops it from offering.
+**If you cannot see the install option**, you are probably in a private or
+incognito window. Open a normal one.
 
 ### Once it is installed
 
-- It opens without the browser bars around it, from the icon like any other
-  app.
-- It works with no connection. Only searching for a new title needs one.
-- It updates itself: open it with a connection and you have the latest version.
-  There is nothing to reinstall, ever.
+- It opens from its icon, like any other app.
+- It works without internet. You only need a connection to look up a new title.
+- It updates itself. There is never anything to reinstall.
 - It asks for no account, no email and no permissions.
 
 ---
 
-## Your data stays yours
+## Your notes are yours
 
-Everything you write lives in your browser's storage, on that device, and
-nowhere else. Nothing is sent anywhere, there is no account, and there is
-nothing to log into. Nobody has a copy — which is the point, but it also means
-nobody can give it back to you.
+Everything you write is saved inside the browser on that phone or computer,
+and nowhere else. It is not sent to anyone. That is the point — and it also
+means nobody can recover it for you if it is lost.
 
-So, in **Profile**, under the panel that says *Your library only lives in this
-browser*, press *Download a backup* now and then; it saves one small file with
-everything. That file is what puts it all back on a new phone (*Restore*), or
-brings two devices together into one (*Merge*). The app tells you there how
-long it has been since the last one.
+So, now and then, make a copy. In **Profile**, press *Download a backup*. It
+saves one small file with everything. With that file you can:
 
-And avoid clearing your browser's site data for this address: it deletes the
-library along with it. The saved copy is the way back.
+- **Restore** everything on a new phone.
+- **Merge** two phones or computers into one.
 
-The one thing that does leave the browser is a visit count: the app loads
-Cloudflare Web Analytics, which sets no cookies, identifies nobody, and never
-sees what is in your library. It says how many people opened the page, and
-nothing else.
+The app reminds you how long it has been since your last copy.
 
-To bring a library in, **Import** reads CSV exports from Goodreads, StoryGraph,
-Pagebound and Letterboxd: ratings, dates, shelves and reviews included.
+One warning: if you clear your browser's saved data for this site, your
+library goes with it. Your copy is how you get it back.
 
----
+The only thing that leaves your device is a simple count of visits, so the app
+knows how many people open it. It uses no cookies, does not know who you are,
+and never sees what is in your library.
 
-## The accounts you keep elsewhere
-
-Quirekeep does not connect to any of them: no login, no API, no permissions
-asked. What it keeps is which of your accounts already has each title, so you
-know what is left to upload. Every title carries one coloured band per account
-— a strip of spines down the side of it — and tapping a band says "this one is
-already there".
-
-It comes with **Booktower, StoryGraph, Pagebound and Goodreads** for books,
-**IGN, Backloggd and Steam** for games, and **Letterboxd and Trakt** for film
-and TV. Any of them can be switched off or hidden, and you can add your own.
-
-With them on, the **sync queue** lists what each account is missing with the
-data ready to copy, the **stats** say how much of a sector each one knows
-about, and **export** can write only what a given service lacks. Turn them all
-off and nothing breaks: the queue is simply empty.
+**Already keep a list somewhere else?** You can bring it in. Quirekeep reads the
+files you can download from Goodreads, StoryGraph, Pagebound, Letterboxd and
+Trakt, with your marks, dates and shelves.
 
 ---
 
-## Where the data comes from
+## If you also use other sites
 
-Only sources that need no key and no account: **Open Library** for book search,
-ISBN lookup and cover art; **Wikidata** for films, series and games — who made
-it, genre, year, length, language, and the cast with the character each one
-plays; and **TVMaze** for seasons and episodes with their air dates, which is
-what lets the app know an episode has not aired yet.
+Maybe you also keep your books on Goodreads or your films on Letterboxd.
+Quirekeep does not log into them and does not touch them. It only helps you
+remember **which of them already has each title**, so you know what is left
+to add there.
 
-Film, TV and games have no keyless source of cover art, so they show a coloured
-card with the title instead. Where the browser supports it, an ISBN can be
-scanned with the camera instead of typed.
+Each title shows a small coloured stripe for each site. Tap a stripe to say
+"this one is already there".
+
+It comes with Booktower, StoryGraph, Pagebound and Goodreads for books; IGN,
+Backloggd and Steam for games; and Letterboxd and Trakt for films and series.
+You can turn off the ones you do not use, or add your own.
+
+With them on, the app lists what each site is still missing, ready to copy.
+With them all off, nothing breaks: that list is simply empty.
+
+---
+
+## Where the information comes from
+
+Only from free, open sources that need no account:
+
+- **Open Library** for books, their editions and their covers.
+- **Wikidata** for films, series and games: who made them, the year, the
+  length, the language and the cast.
+- **Wikipedia** for the short summary, in your language.
+- **TVMaze** for the seasons and episodes of a series, with the date each one
+  comes out, and the characters in its cast.
+
+There is no free source of covers for films, series and games, so those show a
+coloured card with the title instead. On phones that allow it, you can scan a
+book's barcode with the camera instead of typing its number.
 
 ---
 
 ## Licence
 
-The source code is not published; this repository holds the documentation and
-the link to the app. Both the application and these texts are proprietary, all
-rights reserved — see [LICENSE](LICENSE).
+The app's code is not published; this page holds the explanation and the link
+to the app. Both the app and these texts are proprietary, all rights reserved:
+nobody may copy or reuse them without permission — see [LICENSE](LICENSE).

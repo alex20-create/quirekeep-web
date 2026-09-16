@@ -6,47 +6,56 @@
 
 [![La biblioteca de Quirekeep en una pantalla de escritorio](docs/assets/escritorio-biblioteca-claro.png)](https://quirekeep.pages.dev)
 
-Una biblioteca personal para las tres cosas que se llevan por separado y nunca
-en el mismo sitio: **libros, pantalla (cine y series) y juegos**. Va en el
-navegador, no pide cuenta ni servidor, y todo lo que escribes se queda en tu
-dispositivo.
+Quirekeep es una libreta para lo que lees, ves y juegas. Los **libros** en un
+sitio, las **películas y series** en otro, los **juegos** en un tercero, y los
+tres en la misma app.
 
-El nombre viene de ahí: un *quire* es el cuadernillo de hojas plegadas con el
-que se encuaderna un libro. Esto guarda los tuyos.
+No hace falta cuenta ni hay que registrarse. Lo que escribes se queda en tu
+móvil o en tu ordenador, y nadie más lo ve.
+
+El nombre viene de la encuadernación: un *quire* es un cuadernillo de hojas
+dobladas, la pieza con la que se cose un libro. Esta app guarda los tuyos.
 
 ---
 
-## Qué hace
+## Qué puedes hacer con ella
 
-Cada uno de los tres **sectores** es una biblioteca entera, con las mismas seis
-pantallas, y cada uno guarda sus ajustes, sus estantes y sus estadísticas:
+Imagina tres estanterías en la misma habitación: una para libros, otra para
+películas y series, y otra para juegos. Las tres funcionan igual.
 
-| Pantalla | Para qué es |
-|---|---|
-| **Biblioteca** | Todo lo del sector. Filtra por estado, género, idioma, formato, estante o etiqueta; ordena; cambia entre rejilla de portadas y lista. |
-| **Estantes** | Tus propios estantes. Un título puede estar en los que quieras. |
-| **Estadísticas** | Cuántos, con qué nota, de qué géneros, en qué idiomas y cuánto de todo eso conoce cada aplicación conectada. |
-| **Cola de sync** | Los títulos que le faltan a un servicio conectado, con sus datos listos para copiar y un enlace a su búsqueda. |
-| **Importar y exportar** | CSV para entrar, JSON para salir, copias de seguridad en los dos sentidos. |
-| **Añadir** | Un solo formulario, que se rellena casi entero buscando el título. |
+- **Apuntar** todo lo que has leído, visto o jugado, y lo que quieres empezar
+  después.
+- **Marcar por dónde vas**: la página, el minuto, el episodio o un porcentaje.
+- **Ponerle nota** sobre diez y escribir notas privadas.
+- **Hacer tus propios estantes**, como «Vacaciones de verano» o «Para ver con
+  Ana». Un título puede estar en todos los que quieras.
+- **Ver tus números**: cuánto has terminado, en qué idiomas, qué te gusta más.
+- **Ponerte retos**, como «24 libros este año», o una lista de consignas («un
+  libro que pase en invierno») que vas rellenando.
 
-Y tres pantallas que no son de un sector:
+Y hay tres páginas que lo juntan todo:
 
-- **Inicio** — los tres sectores de un vistazo: lo empezado, lo que viene ahora
-  y lo que sale pronto. Desde aquí se marca un episodio visto o un libro
-  terminado.
-- **Estante** — un único estante con los tres sectores: lo que tienes a medias,
-  en una fila por sector.
-- **Retos** — retos de lectura, de pantalla y de juego: una cifra ("24 libros
-  en 2026") o una lista de consignas a las que vas asignando títulos. Cada uno
-  pertenece a un sector y cuenta con los títulos de ese sector.
+- **Inicio** enseña lo que tienes a medias, de los tres a la vez. Desde ahí
+  mismo marcas un episodio como visto o un libro como terminado, y eliges el
+  orden: por lo que llevas, por cuándo lo añadiste, alfabético o como a ti te
+  guste. En el móvil, deja el dedo sobre un título para cambiar cómo va.
+- **Estante** enseña lo que tienes entre manos, lo que viene después y lo que
+  ya has terminado.
+- **Retos** enseña cómo va cada uno de tus retos.
 
-Además: nota sobre diez, avance por título (páginas, minutos, horas, episodios
-o porcentaje a secas), historial con relecturas, notas privadas, una cola de
-cinco siguientes, tema claro y oscuro, y español e inglés.
+### Cada título se completa solo
 
-En el móvil aparece la barra de abajo y se cambia de pantalla deslizando de
-lado; en pantalla ancha es una aplicación de escritorio a tres columnas.
+Cuando abres un título, la app busca lo que puede y añade lo que falta: un
+resumen corto en tu idioma, quién lo hizo (autor, dirección, guion, productora,
+la editorial original) y los actores con el personaje de cada uno. Nunca cambia
+nada de lo que hayas escrito tú.
+
+En un libro, además, puedes elegir **la edición que tienes**: la editorial, el
+año, la portada y el número de páginas. Si ibas por la mitad, sigues por la
+mitad en la edición nueva.
+
+La app está en **español e inglés**, y tiene un aspecto oscuro y otro claro,
+como de papel.
 
 ---
 
@@ -60,19 +69,20 @@ te sirve, puedes echar una mano en
 
 ## Cómo se ve
 
-Capturas de verdad, no maquetas. La misma app, con una disposición para el
-móvil y otra para pantalla ancha, en el tema que elijas.
+Capturas de verdad, no dibujos. La misma app, colocada de una manera en el
+móvil y de otra en una pantalla grande.
 
-| Inicio | Biblioteca | Una obra |
+| Inicio | Biblioteca | Un título |
 |---|---|---|
 | ![Los tres sectores en el móvil](docs/assets/movil-inicio-oscuro.png) | ![Una biblioteca de portadas en el móvil](docs/assets/movil-biblioteca-oscuro.png) | ![La ficha de un libro en el móvil](docs/assets/movil-ficha-oscuro.png) |
-| Los tres sectores de un vistazo: lo empezado y lo que viene ahora. | Filtra, ordena, y cambia entre portadas y lista. | Nota, avance, estantes, etiquetas y qué cuentas la tienen ya. |
+| Libros, películas y juegos a la vez: lo empezado y lo que viene. | Todo lo que tienes, con portadas o en lista. | La nota, por dónde vas y todo sobre el título. |
 
-En pantalla ancha los tres sectores son tres puertas:
+En una pantalla grande, libros, películas y juegos van uno al lado del otro:
 
 ![Los tres sectores uno al lado del otro en escritorio](docs/assets/escritorio-inicio-oscuro.png)
 
-Y los dos temas están diseñados aparte, no es uno dado la vuelta:
+Y el aspecto claro está diseñado aparte, no es el oscuro con los colores
+cambiados:
 
 <p align="center">
   <img src="docs/assets/movil-inicio-claro.png" alt="La misma pantalla de inicio en el tema claro" width="300" />
@@ -80,101 +90,107 @@ Y los dos temas están diseñados aparte, no es uno dado la vuelta:
 
 ---
 
-## Cómo se instala
+## Cómo conseguirla
 
-Quirekeep no está en la App Store ni en Google Play, y no hay ningún instalador
-que descargar. Es una aplicación web: abres una dirección y le dices al
-navegador que se la quede. A partir de ahí se queda con las demás aplicaciones,
-se abre igual que ellas y funciona con el móvil en modo avión.
+Quirekeep no está en la App Store ni en Google Play, y no hay nada que
+descargar. Vive en una dirección web, y tu navegador puede guardártela como si
+fuera una app: con su icono, abriéndose sola y funcionando incluso sin
+internet.
 
 > **La dirección: https://quirekeep.pages.dev**
 
-**En Android** — abre la dirección en Chrome, entra en el menú ⋮ de arriba a la
-derecha y pulsa *Instalar aplicación* (en versiones antiguas pone *Añadir a
-pantalla de inicio*). Acepta.
+**En un móvil Android** — abre la dirección en Chrome. Toca los tres puntos de
+arriba a la derecha y luego *Instalar aplicación* (en móviles antiguos pone
+*Añadir a pantalla de inicio*). Acepta.
 
-**En iPhone o iPad** — abre la dirección **en Safari**, no en otro navegador.
-Pulsa el botón de compartir (el cuadrado con la flecha hacia arriba), baja por
-la lista y pulsa *Añadir a pantalla de inicio*.
+**En un iPhone o iPad** — abre la dirección **en Safari** (tiene que ser
+Safari). Toca el botón de compartir, el cuadrado con una flecha hacia arriba,
+baja y toca *Añadir a pantalla de inicio*.
 
-**En Windows o Mac** — abre la dirección en Chrome o en Edge. Al final de la
-barra de direcciones hay un iconito de instalar (una pantalla con una flecha):
-púlsalo, o busca *Instalar Quirekeep* en el menú ⋮ del navegador. Firefox no
-instala aplicaciones: ahí funciona, pero se queda en una pestaña.
+**En un ordenador Windows o Mac** — abre la dirección en Chrome o en Edge. Al
+final de la barra donde se escribe la dirección hay un iconito de una pantalla
+con una flecha: púlsalo. O busca *Instalar Quirekeep* en el menú del navegador.
+Firefox no puede hacerlo; ahí la app funciona igual, pero como una pestaña
+normal.
 
-**Si no aparece la opción de instalar**, casi siempre es que el navegador está
-en una ventana privada. Solo con eso ya no la ofrece.
+**Si no ves la opción de instalar**, seguramente estás en una ventana privada
+o de incógnito. Abre una normal.
 
 ### Una vez instalada
 
-- Se abre sin las barras del navegador alrededor, desde su icono como cualquier
-  otra aplicación.
-- Funciona sin conexión. Solo hace falta para buscar un título nuevo.
-- Se actualiza sola: la abres con conexión y ya tienes la última versión. No
-  hay que reinstalar nada, nunca.
+- Se abre desde su icono, como cualquier otra app.
+- Funciona sin internet. Solo hace falta conexión para buscar un título nuevo.
+- Se actualiza sola. Nunca hay que reinstalar nada.
 - No pide cuenta, ni correo, ni permisos.
 
 ---
 
-## Tus datos son tuyos
+## Tus notas son tuyas
 
-Todo lo que escribes vive en el almacén de tu navegador, en ese dispositivo y
-en ningún sitio más. No se manda nada a ninguna parte, no hay cuenta y no hay
-donde entrar. Nadie tiene una copia —que es la gracia—, pero eso significa
-también que nadie te la puede devolver.
+Todo lo que escribes se guarda dentro del navegador de ese móvil u ordenador, y
+en ningún sitio más. No se le manda a nadie. Esa es la gracia, y también quiere
+decir que nadie te lo puede recuperar si se pierde.
 
-Así que, en **Perfil**, en el recuadro que dice *Tu biblioteca solo vive en este
-navegador*, dale a *Descargar copia* de vez en cuando: guarda un archivo pequeño
-con todo. Ese archivo es lo que lo devuelve todo en un móvil nuevo (*Restaurar*)
-o junta dos dispositivos en uno (*Combinar*). Ahí mismo te dice cuánto hace de
-la última.
+Así que, de vez en cuando, haz una copia. En **Perfil**, pulsa *Descargar
+copia*. Se guarda un archivo pequeño con todo. Con ese archivo puedes:
 
-Y no borres los datos del navegador para esta dirección: se lleva la biblioteca
-por delante. La copia guardada es la vuelta atrás.
+- **Restaurar** todo en un móvil nuevo.
+- **Combinar** dos móviles u ordenadores en uno.
 
-Lo único que sale del navegador es una cuenta de visitas: la app carga
-Cloudflare Web Analytics, que no pone cookies, no identifica a nadie y no ve lo
-que hay en tu biblioteca. Dice cuánta gente abrió la página, y nada más.
+La app te recuerda cuánto hace de tu última copia.
 
-Para traer una biblioteca, **Importar** lee los CSV de Goodreads, StoryGraph,
-Pagebound y Letterboxd, con notas, fechas, estantes y reseñas.
+Un aviso: si borras los datos guardados del navegador para esta página, tu
+biblioteca se va con ellos. La copia es la manera de recuperarla.
 
----
+Lo único que sale de tu dispositivo es una simple cuenta de visitas, para saber
+cuánta gente abre la app. No usa cookies, no sabe quién eres y nunca ve lo que
+hay en tu biblioteca.
 
-## Las cuentas que llevas fuera
-
-Quirekeep no se conecta a ninguna: ni entra, ni usa su API, ni pide permisos.
-Lo que guarda es cuál de tus cuentas tiene ya cada título, para saber qué te
-falta por subir. Cada título lleva una banda de color por cuenta —los lomos de
-su costado—, y pulsar una banda dice «esta ya lo tiene».
-
-Vienen puestas **Booktower, StoryGraph, Pagebound y Goodreads** para libros,
-**IGN, Backloggd y Steam** para juegos, y **Letterboxd y Trakt** para cine y
-series. Cualquiera se puede apagar o esconder, y puedes añadir las tuyas.
-
-Con ellas encendidas, la **cola de sync** enseña lo que le falta a cada una con
-los datos listos para copiar, las **estadísticas** dicen cuánto de un sector
-conoce cada una, y **exportar** saca solo lo que a un servicio le falta.
-Apágalas todas y no se rompe nada: la cola se queda vacía.
+**¿Ya llevas una lista en otro sitio?** Puedes traerla. Quirekeep lee los
+archivos que se descargan de Goodreads, StoryGraph, Pagebound, Letterboxd y
+Trakt, con tus notas, fechas y estantes.
 
 ---
 
-## De dónde salen los datos
+## Si también usas otras páginas
 
-Solo fuentes que no piden clave ni cuenta: **Open Library** para buscar libros,
-consultar por ISBN y sacar portadas; **Wikidata** para cine, series y juegos
-—quién lo hizo, género, año, duración, idioma, y el reparto con el personaje de
-cada uno—; y **TVMaze** para temporadas y episodios con sus fechas de emisión,
-que es lo que permite saber que un episodio todavía no ha salido.
+Quizá también apuntas tus libros en Goodreads o tus películas en Letterboxd.
+Quirekeep no entra en ellas ni las toca. Solo te ayuda a recordar **cuál de
+ellas tiene ya cada título**, para saber qué te falta por añadir allí.
 
-Cine, series y juegos no tienen ninguna fuente de portadas sin clave, así que
-enseñan una tarjeta de color con el título. Donde el navegador lo permite, el
-ISBN se puede escanear con la cámara en vez de teclearlo.
+Cada título enseña una rayita de color por cada página. Toca una rayita para
+decir «esta ya lo tiene».
+
+Vienen puestas Booktower, StoryGraph, Pagebound y Goodreads para libros; IGN,
+Backloggd y Steam para juegos; y Letterboxd y Trakt para películas y series.
+Puedes apagar las que no uses o añadir las tuyas.
+
+Con ellas encendidas, la app enseña lo que le falta a cada página, listo para
+copiar. Con todas apagadas no se rompe nada: esa lista se queda vacía.
+
+---
+
+## De dónde sale la información
+
+Solo de fuentes libres y gratuitas que no piden cuenta:
+
+- **Open Library** para los libros, sus ediciones y sus portadas.
+- **Wikidata** para películas, series y juegos: quién los hizo, el año, la
+  duración, el idioma y el reparto.
+- **Wikipedia** para el resumen corto, en tu idioma.
+- **TVMaze** para las temporadas y episodios de una serie, con la fecha en que
+  sale cada uno, y los personajes de su reparto.
+
+No hay ninguna fuente gratuita de portadas para películas, series y juegos, así
+que esos enseñan una tarjeta de color con el título. En los móviles que lo
+permiten, puedes escanear el código de barras de un libro con la cámara en vez
+de escribir su número.
 
 ---
 
 ## Licencia
 
-El código no está publicado; este repositorio tiene la documentación y el
-enlace a la app. Tanto la aplicación como estos textos son propietarios, todos
-los derechos reservados — está en [LICENSE](LICENSE).
+El código de la app no está publicado; esta página tiene la explicación y el
+enlace a la app. Tanto la app como estos textos son propietarios, con todos los
+derechos reservados: nadie puede copiarlos ni reutilizarlos sin permiso — está
+en [LICENSE](LICENSE).
