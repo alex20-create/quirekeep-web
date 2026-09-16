@@ -33,7 +33,8 @@ And three screens that are not about one sector:
 
 - **Home** — the three sectors at a glance: what you have started, what comes
   next, and what is released soon. Mark an episode watched or a book finished
-  from here.
+  from here, sort by progress, by date added, alphabetically or by hand, and on
+  a phone hold a title down to change its status or log progress.
 - **Shelf** — a single shelf across all three sectors: what is in progress, in
   one row per sector.
 - **Challenges** — reading, watching and playing challenges: a target ("24
@@ -43,6 +44,13 @@ And three screens that are not about one sector:
 Also: a rating out of ten, per-title progress (pages, minutes, hours, episodes
 or a plain percentage), reading history with re-reads, private notes, an
 up-next queue of five, light and dark themes, and Spanish and English.
+
+Each title's page fills itself in when you open it: a summary in the language
+the app is in, who made it (studios, direction, writing, the original
+publisher), the cast with the character each one plays, and whatever else the
+sources know that you had not written — without overwriting anything you did.
+For a book you can choose the edition you are reading, and your progress keeps
+its place in the new page count.
 
 On a phone it grows a bottom bar and you move between screens by swiping
 sideways; on a wide screen it is a three-column desktop app.
@@ -136,7 +144,8 @@ sees what is in your library. It says how many people opened the page, and
 nothing else.
 
 To bring a library in, **Import** reads CSV exports from Goodreads, StoryGraph,
-Pagebound and Letterboxd: ratings, dates, shelves and reviews included.
+Pagebound and Letterboxd — ratings, dates, shelves and reviews included — and
+Trakt's JSON export, with the episodes counted per season.
 
 ---
 
@@ -162,10 +171,12 @@ off and nothing breaks: the queue is simply empty.
 ## Where the data comes from
 
 Only sources that need no key and no account: **Open Library** for book search,
-ISBN lookup and cover art; **Wikidata** for films, series and games — who made
-it, genre, year, length, language, and the cast with the character each one
-plays; and **TVMaze** for seasons and episodes with their air dates, which is
-what lets the app know an episode has not aired yet.
+ISBN lookup, the editions of a work and cover art; **Wikidata** for films,
+series and games — who made it, genre, year, length, language, and the cast
+with the character each one plays; **Wikipedia** for the summary on a title's
+page, in the language the app is in; and **TVMaze** for seasons and episodes
+with their air dates, which is what lets the app know an episode has not aired
+yet, and for the characters in a series' cast.
 
 Film, TV and games have no keyless source of cover art, so they show a coloured
 card with the title instead. Where the browser supports it, an ISBN can be

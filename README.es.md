@@ -34,7 +34,9 @@ Y tres pantallas que no son de un sector:
 
 - **Inicio** — los tres sectores de un vistazo: lo empezado, lo que viene ahora
   y lo que sale pronto. Desde aquí se marca un episodio visto o un libro
-  terminado.
+  terminado, se ordena por avance, por fecha de alta, alfabéticamente o a mano,
+  y en el móvil, manteniendo pulsado un título, se cambia su estado o se anota
+  el avance.
 - **Estante** — un único estante con los tres sectores: lo que tienes a medias,
   en una fila por sector.
 - **Retos** — retos de lectura, de pantalla y de juego: una cifra ("24 libros
@@ -44,6 +46,13 @@ Y tres pantallas que no son de un sector:
 Además: nota sobre diez, avance por título (páginas, minutos, horas, episodios
 o porcentaje a secas), historial con relecturas, notas privadas, una cola de
 cinco siguientes, tema claro y oscuro, y español e inglés.
+
+La ficha de cada obra se completa sola al abrirla: un resumen en el idioma de
+la app, quién la hizo (productoras, dirección, guion, la editorial original),
+el reparto con el personaje de cada uno y lo demás que las fuentes sepan y tú
+no hubieras puesto, sin tocar nada de lo que sí pusiste. En un libro puedes
+elegir la edición que estás leyendo, y el avance conserva su sitio en el nuevo
+número de páginas.
 
 En el móvil aparece la barra de abajo y se cambia de pantalla deslizando de
 lado; en pantalla ancha es una aplicación de escritorio a tres columnas.
@@ -137,7 +146,8 @@ Cloudflare Web Analytics, que no pone cookies, no identifica a nadie y no ve lo
 que hay en tu biblioteca. Dice cuánta gente abrió la página, y nada más.
 
 Para traer una biblioteca, **Importar** lee los CSV de Goodreads, StoryGraph,
-Pagebound y Letterboxd, con notas, fechas, estantes y reseñas.
+Pagebound y Letterboxd —con notas, fechas, estantes y reseñas— y el JSON de
+Trakt, con los episodios contados por temporada.
 
 ---
 
@@ -162,10 +172,13 @@ Apágalas todas y no se rompe nada: la cola se queda vacía.
 ## De dónde salen los datos
 
 Solo fuentes que no piden clave ni cuenta: **Open Library** para buscar libros,
-consultar por ISBN y sacar portadas; **Wikidata** para cine, series y juegos
-—quién lo hizo, género, año, duración, idioma, y el reparto con el personaje de
-cada uno—; y **TVMaze** para temporadas y episodios con sus fechas de emisión,
-que es lo que permite saber que un episodio todavía no ha salido.
+consultar por ISBN, ver las ediciones de cada obra y sacar portadas;
+**Wikidata** para cine, series y juegos —quién lo hizo, género, año, duración,
+idioma, y el reparto con el personaje de cada uno—; **Wikipedia** para el
+resumen de la ficha, en el idioma de la app; y **TVMaze** para temporadas y
+episodios con sus fechas de emisión, que es lo que permite saber que un
+episodio todavía no ha salido, y para los personajes del reparto de una
+serie.
 
 Cine, series y juegos no tienen ninguna fuente de portadas sin clave, así que
 enseñan una tarjeta de color con el título. Donde el navegador lo permite, el
