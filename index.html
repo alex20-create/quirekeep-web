@@ -91,7 +91,7 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
 /* medida unica para la prosa que ocupa el ancho de seccion */
 :root{--measure-long:47rem}
 .section{padding-block:clamp(2.5rem,5.5vw,3.75rem);border-top:3px solid var(--line)}
-.section > .wrap > p{margin:0 0 .85rem;max-width:var(--measure-long);text-wrap:balance}
+.section > .wrap > p{margin:0 0 .85rem;max-width:var(--measure-long);text-wrap:pretty}
 .section > .wrap > p:last-child{margin-bottom:0}
 
 /* cabecera de seccion: titular a la izquierda, texto a la derecha
@@ -106,14 +106,14 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
 /* cabecera de una sola linea: el titular ocupa el ancho y no parte */
 .head-wide{display:block}
 .head-wide h2{max-width:none;text-wrap:initial;margin-bottom:.7rem}
-.head-wide .head-text p{max-width:var(--measure-long);text-wrap:balance}
+.head-wide .head-text p{max-width:var(--measure-long);text-wrap:pretty}
 /* titular partido a proposito en tres lineas */
 .h2-lines{max-width:none;text-wrap:initial}
 /* subtitular dentro de una seccion fusionada */
 .sub{font-family:var(--head-font);font-weight:var(--head-weight);
   letter-spacing:var(--head-track);line-height:1.14;max-width:none;text-wrap:initial;
   font-size:clamp(1.2rem,1.05rem + .6vw,1.5rem);margin:2.75rem 0 .5rem}
-.sub + p{margin:0 0 .6rem;max-width:var(--measure-long);text-wrap:balance}
+.sub + p{margin:0 0 .6rem;max-width:var(--measure-long);text-wrap:pretty}
 .head-text{margin:0}
 .head-text p{margin:0 0 .75rem;max-width:64ch}
 .head-text p:last-child{margin-bottom:0}
@@ -241,12 +241,12 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
   font-family:var(--label-font);font-variant:var(--label-variant);
   letter-spacing:var(--label-spacing);font-weight:var(--label-weight);font-size:.8125rem}
 
-/* Capturas de movil: recortadas por arriba y con techo de alto, para que no
-   se estiren en tiras verticales enormes dentro de la rejilla. */
-.previews{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.75rem}
-@media (min-width:560px){.previews{grid-template-columns:repeat(3,1fr)}}
-.previews figure{margin:0}
-.previews img{display:block;width:100%;height:220px;object-fit:cover;object-position:top;
+/* Capturas de movil: la imagen entera, con su proporcion de telefono, igual
+   que el par del principio pero mas pequenas -de ancho fijo, no estiradas
+   a una columna que las recortaba y las dejaba con pinta rara. */
+.previews{display:flex;flex-wrap:wrap;gap:1.1rem;margin-top:1.75rem}
+.previews figure{margin:0;width:150px;flex:0 0 auto}
+.previews img{display:block;width:100%;height:auto;
   border:1px solid var(--line);border-radius:var(--r-shot);box-shadow:var(--card-shadow)}
 .previews figcaption{margin-top:.5rem;text-align:center;color:var(--muted);
   font-family:var(--label-font);font-variant:var(--label-variant);
@@ -293,7 +293,7 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
   font-style:normal;color:var(--ink);white-space:nowrap}
 .aside{margin-top:2.5rem;
   color:var(--muted);font-size:.9rem;
-  max-width:var(--measure-long);text-wrap:balance}
+  max-width:var(--measure-long);text-wrap:pretty}
 
 /* ---------- cierre y cafe ---------- */
 .close{text-align:center}
