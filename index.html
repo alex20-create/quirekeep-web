@@ -35,7 +35,7 @@
   --head-font:"Newsreader",Georgia,serif; --head-weight:600; --head-track:-0.015em;
   --btn-face:#2A2620; --btn-text:#F4EFE4;
   --sw-on:#EDE4D2;
-  --wash:.12;
+  --wash:.34;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -125,22 +125,27 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
 .brand span{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
   font-weight:700;font-size:1.05rem;letter-spacing:-.02em}
 
-/* conmutador de tema, como el de la app: una pildora con luna y sol */
-.themesw{display:inline-flex;align-items:center;gap:2px;padding:3px;
-  border:1px solid var(--line);border-radius:999px;background:transparent}
-.themesw button{
-  font:inherit;font-size:.95rem;line-height:1;cursor:pointer;
-  width:36px;height:34px;display:grid;place-items:center;
-  border:0;border-radius:999px;background:transparent;color:var(--muted);
-}
-.themesw button[aria-pressed="true"]{background:var(--sw-on);color:var(--ink)}
+/* conmutador de tema y selector de idioma: los mismos que en la app,
+   pastilla con boton deslizante y desplegable de borde fino */
+.mast-controls{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.themesw{position:relative;display:inline-flex;align-items:center;padding:3px;
+  border:1px solid var(--line);border-radius:999px;background:transparent;
+  cursor:pointer;line-height:0}
+.themesw:hover{border-color:var(--ink)}
+.themesw .themeicon{position:relative;z-index:1;width:22px;text-align:center;
+  font-size:12px;line-height:19px;color:var(--muted);transition:color .16s ease}
+.themesw .themeknob{position:absolute;top:3px;left:3px;width:22px;height:19px;
+  border-radius:999px;background:var(--line);transition:transform .16s ease}
+.themesw[data-theme="light"] .themeknob{transform:translateX(22px)}
+.themesw[data-theme="dark"] .themeicon.dark{color:var(--ink)}
+.themesw[data-theme="light"] .themeicon.light{color:var(--ink)}
 .langsw{
-  font-family:var(--label-font);font-variant:var(--label-variant);
-  letter-spacing:var(--label-spacing);font-weight:var(--label-weight);font-size:.875rem;
-  color:var(--ink);background:transparent;
-  border:1px solid var(--line);border-radius:var(--r-btn);
-  padding:.5rem .6rem;min-height:40px;cursor:pointer;
+  font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;font-size:12px;
+  color:var(--muted);background:transparent;
+  border:1px solid var(--line);border-radius:6px;
+  padding:5px 26px 5px 9px;cursor:pointer;
 }
+.langsw:hover{color:var(--ink);border-color:var(--ink)}
 .btn{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
   font-weight:600;font-size:.95rem;text-decoration:none;display:inline-block;
   padding:.78rem 1.45rem;border-radius:var(--r-btn);border:1px solid var(--line);min-height:44px}
@@ -203,8 +208,11 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
 .url a:hover{color:var(--libros)}
 .url span{color:var(--muted)}
 
-/* par de moviles del hero: papel y noche a la vez */
-.pair{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;align-items:start}
+/* par de moviles del hero: papel y noche a la vez. Uno debajo del otro
+   por debajo del corte: lado a lado a 390px quedaban en tarjetas de 90px
+   de ancho, ilegibles. */
+.pair{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:start}
+@media (min-width:520px){.pair{grid-template-columns:1fr 1fr;gap:.9rem}}
 .pair figure{margin:0}
 .pair img{border:1px solid var(--line);border-radius:var(--r-shot);box-shadow:var(--card-shadow)}
 :root[data-theme="dark"] .pair img{box-shadow:0 22px 44px -26px rgba(0,0,0,.9)}
@@ -304,15 +312,19 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
 <div class="wrap">
   <header class="masthead">
     <a class="brand" href="#"><img src="data:image/png;base64,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" alt="" width="80" height="80"><span>Quirekeep</span></a>
-    <div class="themesw" role="group" aria-label="Tema" data-en-label="Theme">
-      <button type="button" id="sw-dark" aria-pressed="false" aria-label="Tema Digital" data-en-label="Digital theme">☾</button>
-      <button type="button" id="sw-light" aria-pressed="false" aria-label="Tema Papel" data-en-label="Paper theme">☀</button>
+    <div class="mast-controls">
+      <button type="button" class="themesw" id="themesw" data-theme="dark"
+        aria-label="Tema Papel">
+        <span class="themeknob" aria-hidden="true"></span>
+        <span class="themeicon dark" aria-hidden="true">☾</span>
+        <span class="themeicon light" aria-hidden="true">☀</span>
+      </button>
+      <select class="langsw" id="langsw" aria-label="Idioma" data-en-label="Language">
+        <option value="es">Español</option>
+        <option value="en">English</option>
+      </select>
+      <a class="btn btn-ghost btn-sm" href="https://quirekeep.pages.dev" data-en="Open the app">Abrir la app</a>
     </div>
-    <select class="langsw" id="langsw" aria-label="Idioma" data-en-label="Language">
-      <option value="es">Español</option>
-      <option value="en">English</option>
-    </select>
-    <a class="btn btn-ghost btn-sm" href="https://quirekeep.pages.dev" data-en="Open the app">Abrir la app</a>
   </header>
 </div>
 
@@ -497,9 +509,14 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
 <script>
 (function(){
   var root=document.documentElement;
-  var dark=document.getElementById('sw-dark'), light=document.getElementById('sw-light');
+  var sw=document.getElementById('themesw');
   var lang=document.getElementById('langsw');
   var KT='qk-landing-theme', KL='qk-landing-lang';
+  var curLang='es';
+  /* La pastilla es un solo boton: la etiqueta nombra a que tema pasas,
+     igual que en la app, asi que depende del tema Y del idioma a la vez. */
+  var SW_LABEL={ es:{dark:'Tema Papel', light:'Tema Digital'},
+                 en:{dark:'Paper theme', light:'Digital theme'} };
 
   /* ---- tema ---- */
   var savedT=null; try{ savedT=localStorage.getItem(KT); }catch(e){}
@@ -511,17 +528,15 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
   }
   function paintTheme(){
     var t=theme();
-    dark.setAttribute('aria-pressed', t==='dark' ? 'true':'false');
-    light.setAttribute('aria-pressed', t==='light' ? 'true':'false');
+    sw.setAttribute('data-theme', t);
+    sw.setAttribute('aria-label', SW_LABEL[curLang][t]);
   }
   function setTheme(t){
     root.setAttribute('data-theme',t);
     try{ localStorage.setItem(KT,t); }catch(e){}
     paintTheme();
   }
-  dark.addEventListener('click',function(){setTheme('dark');});
-  light.addEventListener('click',function(){setTheme('light');});
-  paintTheme();
+  sw.addEventListener('click',function(){ setTheme(theme()==='dark' ? 'light' : 'dark'); });
 
   /* ---- idioma ---- */
   var nodes=document.querySelectorAll('[data-en]');
@@ -530,6 +545,7 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
   Array.prototype.forEach.call(labelled,function(n){ n.setAttribute('data-es-label', n.getAttribute('aria-label')); });
 
   function setLang(l){
+    curLang=l;
     Array.prototype.forEach.call(nodes,function(n){
       n.innerHTML = n.getAttribute(l==='en' ? 'data-en' : 'data-es');
     });
@@ -539,6 +555,7 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
     root.setAttribute('lang', l);
     lang.value = l;
     try{ localStorage.setItem(KL,l); }catch(e){}
+    paintTheme();
   }
   var savedL=null; try{ savedL=localStorage.getItem(KL); }catch(e){}
   if(savedL!=='es' && savedL!=='en'){
