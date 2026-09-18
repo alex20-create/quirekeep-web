@@ -79,6 +79,14 @@ another on a big screen.
 | ![The three sectors on a phone](docs/assets/movil-inicio-oscuro.png) | ![A library of covers on a phone](docs/assets/movil-biblioteca-oscuro.png) | ![One book's page on a phone](docs/assets/movil-ficha-oscuro.png) |
 | Books, films and games at once: what you have started, and what comes next. | Everything you have, with covers or as a list. | The mark, where you are, and everything about the title. |
 
+A series keeps its seasons, fetched from TVMaze: which episodes you have seen,
+which one comes next, and when each one aired.
+
+| A series | Its seasons |
+|---|---|
+| ![A series' page on a phone](docs/assets/movil-ficha-serie-oscuro.png) | ![The seasons of a series, episode by episode](docs/assets/movil-ficha-serie-temporadas-oscuro.png) |
+| Studio, creator, cast and episode count. | Season by season, with the next episode ready to mark. |
+
 On a big screen, books, films and games sit side by side:
 
 ![The three sectors side by side on a desktop screen](docs/assets/escritorio-inicio-oscuro.png)

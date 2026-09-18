@@ -77,6 +77,14 @@ móvil y de otra en una pantalla grande.
 | ![Los tres sectores en el móvil](docs/assets/movil-inicio-oscuro.png) | ![Una biblioteca de portadas en el móvil](docs/assets/movil-biblioteca-oscuro.png) | ![La ficha de un libro en el móvil](docs/assets/movil-ficha-oscuro.png) |
 | Libros, películas y juegos a la vez: lo empezado y lo que viene. | Todo lo que tienes, con portadas o en lista. | La nota, por dónde vas y todo sobre el título. |
 
+Una serie guarda sus temporadas, traídas de TVMaze: qué episodios has visto,
+cuál toca ahora y cuándo se emitió cada uno.
+
+| Una serie | Sus temporadas |
+|---|---|
+| ![La ficha de una serie en el móvil](docs/assets/movil-ficha-serie-oscuro.png) | ![Las temporadas de una serie, episodio a episodio](docs/assets/movil-ficha-serie-temporadas-oscuro.png) |
+| Productora, creación, reparto y episodios. | Temporada a temporada, con el siguiente episodio listo para marcar. |
+
 En una pantalla grande, libros, películas y juegos van uno al lado del otro:
 
 ![Los tres sectores uno al lado del otro en escritorio](docs/assets/escritorio-inicio-oscuro.png)
