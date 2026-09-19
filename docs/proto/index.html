@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quirekeep — prototipo pase de secciones (Digital)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@10..48,400;10..48,500;10..48,600;10..48,700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Prototype: section pass + bookshelf look. Digital is the tuned theme;
+   Paper only carries its variables so the switch works, nothing more yet.
+   Variables copied from quirekeep-web/index.html. */
+:root{ /* Papel */
+  --paper:#F4EFE4; --card:#FBF7EE; --ink:#2A2620; --muted:#6B6257; --line:#DCD3C2;
+  --libros:#714D1E; --cine:#1F5F47; --juegos:#6D457A;
+  --r-card:0px; --r-btn:0px; --r-shot:0px;
+  --card-border:1px solid transparent;
+  --label-font:"Newsreader",Georgia,serif; --label-variant:small-caps; --label-spacing:.06em; --label-weight:600;
+  --head-font:"Newsreader",Georgia,serif; --head-weight:600; --head-track:-0.015em;
+  --btn-face:#2A2620; --btn-text:#F4EFE4;
+  --shelf-a:#D9CDB4; --shelf-b:#BFAF92; --shelf-edge:rgba(255,255,255,.55);
+  --pile-shadow:0 -10px 24px -14px rgba(42,38,32,.45);
+  --wash:.34;
+  --spine:44px;
+}
+:root[data-theme="dark"]{
+  --paper:#101623; --card:#171E2E; --ink:#E8ECF4; --muted:#98A2B6; --line:#26304A;
+  --libros:#A06F30; --cine:#338D6B; --juegos:#94669F;
+  --r-card:10px; --r-btn:6px; --r-shot:14px;
+  --card-border:1px solid #26304A;
+  --label-font:"IBM Plex Mono",ui-monospace,monospace; --label-variant:normal; --label-spacing:.02em; --label-weight:500;
+  --head-font:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif; --head-weight:600; --head-track:-0.022em;
+  --btn-face:#E8ECF4; --btn-text:#101623;
+  --shelf-a:#2B354D; --shelf-b:#1A2234; --shelf-edge:rgba(255,255,255,.10);
+  --pile-shadow:0 -18px 40px -12px rgba(0,0,0,.55);
+  --wash:.38;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Newsreader",Georgia,serif;font-size:clamp(1rem,.96rem + .28vw,1.125rem);
+  line-height:1.58;font-weight:300;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+/* the shelves poke 5% past their box; clip (not hidden) keeps sticky working */
+main{overflow-x:clip}
+a{color:inherit}
+h1,h2,h3{font-family:var(--head-font);font-weight:var(--head-weight);letter-spacing:var(--head-track);line-height:1.07;margin:0 0 .85rem;text-wrap:balance}
+h1{font-size:clamp(2.2rem,1.2rem + 4.2vw,3.9rem);max-width:16ch}
+h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
+.label{font-family:var(--label-font);font-variant:var(--label-variant);letter-spacing:var(--label-spacing);font-weight:var(--label-weight);font-size:.8125rem}
+.wrap{width:min(1080px,100%);margin-inline:auto;padding-inline:clamp(1.15rem,4.5vw,2.75rem)}
+.muted{color:var(--muted)}
+.btn{display:inline-block;padding:.78rem 1.45rem;border-radius:var(--r-btn);text-decoration:none;min-height:44px;
+  font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;font-weight:600;font-size:.95rem;border:1px solid var(--line)}
+.btn-solid{background:var(--btn-face);color:var(--btn-text);border-color:var(--btn-face)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-sm{padding:.3rem .85rem;font-size:.8125rem;min-height:30px}
+
+/* ---------- masthead: inside the hero so it stays while the hero is pinned ---------- */
+/* exactly one spine tall: it is the strip of the hero that the pile keeps */
+.masthead{display:flex;align-items:center;gap:.6rem;height:var(--spine)}
+.brand img{width:26px;height:26px;border-radius:calc(var(--r-card) - 4px);flex:none}
+.brand{display:inline-flex;align-items:center;gap:.55rem;text-decoration:none;margin-right:auto;
+  font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:1.05rem;letter-spacing:-.02em}
+.mast-controls{display:flex;align-items:center;gap:.6rem}
+.themesw{position:relative;display:inline-flex;align-items:center;padding:3px;border:1px solid var(--line);
+  border-radius:999px;background:transparent;cursor:pointer;line-height:0}
+.themesw span{position:relative;z-index:1;width:22px;text-align:center;font-size:12px;line-height:19px;color:var(--muted)}
+.themesw .knob{position:absolute;top:3px;left:3px;width:22px;height:19px;border-radius:999px;background:var(--line);transition:transform .16s ease}
+:root[data-theme="light"] .themesw .knob{transform:translateX(22px)}
+:root[data-theme="dark"] .themesw .d, :root[data-theme="light"] .themesw .l{color:var(--ink)}
+
+/* ---------- the pile ----------
+   Every .book is sticky. A book that fits under the spines already piled
+   pins by its top; a taller one pins by its bottom instead (--pin goes
+   negative, JS computes it), so all of it scrolls into view before the next
+   book slides over it. Whatever is pinned stays behind the next book. */
+.book{position:sticky;top:var(--pin,calc(var(--i) * var(--spine)));min-height:calc(100vh - var(--i) * var(--spine));background:var(--paper);
+  border-top:1px solid var(--line);border-radius:var(--r-shot) var(--r-shot) 0 0;box-shadow:var(--pile-shadow);isolation:isolate}
+.book.hero{--i:0;top:0;border:0;border-radius:0;box-shadow:none;z-index:0;display:flex;flex-direction:column;padding-top:var(--spine)}
+.book.n1{--i:1;z-index:1}.book.n2{--i:2;z-index:2}.book.n3{--i:3;z-index:3}.book.n4{--i:4;z-index:4}
+.book.last{min-height:calc(100vh - var(--i) * var(--spine))}
+.book.last .body{padding-bottom:0}
+/* a beat with the book fully in view before the next one slides over */
+.book:not(.hero):not(.last){margin-bottom:120px}
+/* the strips of the books already passed, stacked under the masthead.
+   Fixed, so a book pinned by its bottom still shows its spine up here. */
+.pile{position:fixed;top:0;left:0;right:0;z-index:20;pointer-events:none}
+.pile > *{pointer-events:auto}
+.pile .masthead{background:transparent;transition:background .2s}
+.pile.solid .masthead{background:
+    radial-gradient(120% 90% at 8% 0%, color-mix(in oklab,var(--libros) calc(var(--wash) * 100%),transparent) 0%, transparent 62%),
+    radial-gradient(120% 95% at 52% 8%, color-mix(in oklab,var(--cine) calc(var(--wash) * 100%),transparent) 0%, transparent 60%),
+    radial-gradient(125% 95% at 96% 0%, color-mix(in oklab,var(--juegos) calc(var(--wash) * 100%),transparent) 0%, transparent 64%),
+    var(--paper)}
+.pile .spine{display:none;box-shadow:0 6px 16px -10px rgba(0,0,0,.6)}
+.pile .spine.on{display:flex}
+/* narrow screens: no pile, the strips become plain section headers */
+@media (max-width:699px){.book{position:static;min-height:0;border-radius:0;box-shadow:none}.book.hero{min-height:100svh}.pile .spine{display:none !important}}
+
+/* ---------- the stop at each book ----------
+   Not CSS scroll snapping: with a sticky pile Chrome snaps to nonsense, and
+   a mandatory or proximity snap bounces single wheel notches back, so a
+   long section becomes unreadable. Instead each book has a zero-height
+   .slot in normal flow marking where it starts, and the script below acts
+   as a magnet: when scrolling ends near a book's landing point, it finishes
+   the move. Anywhere else the scroll is free. */
+.slot{display:block;height:0}
+
+.spine{height:var(--spine);display:flex;align-items:center;gap:.9rem;padding-inline:clamp(1.15rem,4.5vw,2.75rem);
+  background:var(--card);border-bottom:1px solid var(--line);border-radius:var(--r-shot) var(--r-shot) 0 0}
+.spine::before{content:"";width:8px;height:22px;border-radius:2px;background:var(--hue,var(--line));flex:none}
+.spine .label{color:var(--muted)}
+.spine b{font-family:var(--head-font);font-weight:var(--head-weight);font-size:.95rem;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.spine .n{margin-left:auto;color:var(--muted);font-family:var(--label-font);font-size:.72rem;white-space:nowrap}
+@media (max-width:899px){.spine .n{display:none}}
+.book .body{padding-block:clamp(2.5rem,5.5vw,3.75rem)}
+
+/* books enter with a slight tilt, then settle (JS toggles .in) */
+.book:not(.hero){transform:translateY(26px) rotate(-.9deg);transform-origin:8% 100%;transition:transform .8s cubic-bezier(.2,.75,.2,1)}
+.book.in{transform:none}
+@media (prefers-reduced-motion:reduce){.book:not(.hero){transform:none;transition:none}}
+
+/* ---------- hero ---------- */
+/* wash with the three sector colours, as on the live landing: no vertical
+   cuts, fading downwards so it does not clash with the next book */
+.book.hero{position:sticky;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 8% 0%, var(--libros) 0%, transparent 62%),
+    radial-gradient(120% 95% at 52% 8%, var(--cine) 0%, transparent 60%),
+    radial-gradient(125% 95% at 96% 0%, var(--juegos) 0%, transparent 64%);
+  opacity:var(--wash);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.72) 46%,rgba(0,0,0,.26) 78%,transparent 100%);
+  mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.72) 46%,rgba(0,0,0,.26) 78%,transparent 100%)}
+@media (max-width:699px){.hero::before{opacity:calc(var(--wash) * .62)}}
+.hero .body{flex:1;display:grid;align-content:center;padding-block:2rem 3.5rem}
+.hero-grid{display:grid;gap:2.25rem}
+@media (min-width:700px){.hero-grid{grid-template-columns:1.05fr .95fr;align-items:center}}
+.marks{list-style:none;padding:0;margin:.2rem 0 1.4rem;display:flex;gap:.5rem}
+.marks li{display:flex;flex-direction:column;align-items:center;gap:.45rem;width:6rem;font-family:var(--label-font);
+  font-variant:var(--label-variant);letter-spacing:var(--label-spacing);font-weight:var(--label-weight);font-size:.75rem;color:var(--hue)}
+.marks svg{width:34px;height:34px}
+.deck{margin:0 0 1.5rem;max-width:46ch;color:var(--muted);font-size:1.1em;line-height:1.5}
+.actions{display:flex;flex-wrap:wrap;gap:.65rem}
+.url{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem .75rem;margin:1.35rem 0 0}
+.url a{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:1.05rem;text-decoration:none;border-bottom:2px solid var(--libros);padding-bottom:1px}
+
+/* ---------- a shelf: things stand on it, it casts a shadow below ---------- */
+.shelf{position:relative;padding-bottom:30px}
+.shelf > *{position:relative;z-index:1}
+.shelf::after{content:"";position:absolute;left:-5%;right:-5%;bottom:0;height:16px;border-radius:2px;
+  background:linear-gradient(var(--shelf-a),var(--shelf-b));
+  box-shadow:inset 0 1px 0 var(--shelf-edge),0 12px 26px -8px rgba(0,0,0,.6)}
+/* two phones standing on the hero's shelf, feet on the board */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:end;padding-inline:4%}
+.pair img{border-radius:var(--r-shot) var(--r-shot) 4px 4px;border:1px solid var(--line);
+  box-shadow:0 22px 44px -26px rgba(0,0,0,.9)}
+
+/* ---------- three sectors as three volumes ---------- */
+.sectors{display:grid;gap:1.4rem;margin-top:2.25rem;padding-inline:2%}
+@media (min-width:700px){.sectors{grid-template-columns:repeat(3,1fr)}}
+.vol{--tilt:0deg;position:relative;background:var(--card);border:var(--card-border);
+  border-radius:calc(var(--r-card) / 2.5) var(--r-card) var(--r-card) calc(var(--r-card) / 2.5);
+  padding:1.3rem 1.3rem 1.5rem 1.9rem;min-height:250px;
+  transform:rotate(var(--tilt));transform-origin:50% 100%;
+  transition:transform .7s cubic-bezier(.2,.75,.2,1) var(--delay,0s);
+  box-shadow:inset 18px 0 0 -12px var(--hue),0 16px 28px -18px rgba(0,0,0,.8)}
+.vol::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:1px;background:linear-gradient(transparent,rgba(255,255,255,.12),transparent)}
+.vol h3{font-size:1.5rem;color:var(--hue);margin:.1rem 0 .5rem}
+.vol p{margin:0;font-size:.95rem;line-height:1.45;color:var(--muted)}
+.vol .label{color:var(--muted);display:block;margin-bottom:.9rem}
+.book:not(.in) .vol.l{--tilt:-6deg}.book:not(.in) .vol.c{--tilt:2deg}.book:not(.in) .vol.r{--tilt:7deg}
+.vol.c{--delay:.08s}.vol.r{--delay:.16s}
+.s-libros{--hue:var(--libros)}.s-cine{--hue:var(--cine)}.s-juegos{--hue:var(--juegos)}
+
+/* ---------- screenshots on a shelf ---------- */
+.previews{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;margin-top:2rem;align-items:end;padding-inline:2%}
+@media (min-width:520px){.previews.six{grid-template-columns:repeat(3,1fr)}.previews.eight{grid-template-columns:repeat(4,1fr)}.previews.three{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:900px){.previews.six{grid-template-columns:repeat(6,1fr)}}
+/* two rows on one shelf each: the board sits under every row */
+.previews.eight{row-gap:2.6rem}
+.previews.eight.shelf::after{display:none}
+.previews.eight figure{position:relative;padding-bottom:0}
+.previews.eight figure::after{content:"";position:absolute;left:-8%;right:-8%;bottom:1.55rem;height:16px;border-radius:2px;z-index:0;
+  background:linear-gradient(var(--shelf-a),var(--shelf-b));box-shadow:inset 0 1px 0 var(--shelf-edge),0 12px 26px -8px rgba(0,0,0,.6)}
+/* desktop shots, side by side, standing on the same board */
+.wides{display:grid;gap:1.25rem;margin-top:2.25rem;align-items:end;padding-inline:2%}
+@media (min-width:700px){.wides{grid-template-columns:1fr 1fr}}
+.wides figure{margin:0;min-width:0}
+.wides img{border:1px solid var(--line);border-radius:var(--r-card) var(--r-card) 3px 3px;position:relative;z-index:1}
+.wides figcaption{margin-top:.6rem;color:var(--muted);font-family:var(--label-font);font-variant:var(--label-variant);
+  letter-spacing:var(--label-spacing);font-weight:var(--label-weight);font-size:.8125rem}
+.wides.shelf{padding-bottom:0}
+.wides.shelf::after{bottom:1.75rem}
+.previews figure{margin:0;min-width:0}
+.previews img{border-radius:var(--r-shot) var(--r-shot) 4px 4px;border:1px solid var(--line)}
+.previews figcaption{margin-top:.5rem;text-align:center;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--label-font);
+  font-variant:var(--label-variant);letter-spacing:var(--label-spacing);font-weight:var(--label-weight);font-size:.75rem}
+/* captions sit under the board, not on it */
+.previews.shelf{padding-bottom:0}
+.previews.shelf::after{bottom:1.55rem}
+.previews.shelf img{position:relative;z-index:1}
+.head{display:grid;gap:.75rem}
+@media (min-width:760px){.head{grid-template-columns:minmax(0,.82fr) minmax(0,1.3fr);gap:2.5rem;align-items:start}.head h2{margin-bottom:0}}
+.head p{margin:0 0 .7rem;max-width:47rem}
+.h2-lines{max-width:none;text-wrap:initial}
+/* one-column head: the headline takes the width, the text runs under it */
+.head.head-wide{display:block}
+.head-wide h2{margin-bottom:.9rem}
+.head-wide p{max-width:47rem}
+.sub{font-family:var(--head-font);font-weight:var(--head-weight);letter-spacing:var(--head-track);font-size:clamp(1.2rem,1.05rem + .6vw,1.5rem);margin:2.75rem 0 .5rem}
+
+/* ---------- service spines ---------- */
+.spines{display:flex;flex-wrap:wrap;gap:.45rem;margin:1.25rem 0;padding:0;list-style:none}
+.spines li{font-family:var(--label-font);font-variant:var(--label-variant);letter-spacing:var(--label-spacing);font-weight:var(--label-weight);
+  font-size:.8125rem;padding:.35rem .7rem;background:var(--card);border:var(--card-border);
+  border-left:4px solid color-mix(in oklab,var(--brand) 76%,var(--ink) 24%);border-radius:calc(var(--r-card) - 6px)}
+.b-booktower{--brand:#7A5CA8}.b-storygraph{--brand:#00A3A3}.b-pagebound{--brand:#C2506B}.b-goodreads{--brand:#7B5B2A}
+.b-letterboxd{--brand:#00E054}.b-trakt{--brand:#ED1C24}.b-ign{--brand:#D82D2D}.b-backloggd{--brand:#9B6BD6}.b-steam{--brand:#66C0F4}
+
+.ways{display:grid;gap:1rem;margin-top:1.75rem}
+@media (min-width:700px){.ways{grid-template-columns:repeat(3,1fr)}}
+.way{background:var(--card);border:var(--card-border);border-radius:var(--r-card);padding:1.05rem 1.15rem 1.2rem;border-top:3px solid var(--line)}
+.way h3{margin:0 0 .45rem;font-family:var(--label-font);font-variant:var(--label-variant);letter-spacing:var(--label-spacing);font-weight:var(--label-weight);font-size:.9375rem;color:var(--ink)}
+.way p{margin:0;color:var(--muted);font-size:.92rem;line-height:1.55}
+.ui{font-family:var(--label-font);font-variant:var(--label-variant);letter-spacing:var(--label-spacing);font-weight:var(--label-weight);font-style:normal;color:var(--ink);white-space:nowrap}
+
+/* ---------- close and footer, at the end of the last book ---------- */
+.close{text-align:center;margin-top:clamp(3rem,6vw,4.5rem);padding-top:clamp(2.5rem,5vw,3.5rem);border-top:1px solid var(--line)}
+.close h2,.close p{margin-inline:auto}
+.close .actions{justify-content:center;margin-top:1.4rem}
+.bar{height:6px;margin-top:clamp(2.5rem,5.5vw,3.75rem);background:linear-gradient(90deg,var(--libros) 0 33.33%,var(--cine) 0 66.66%,var(--juegos) 0)}
+.foot{padding-block:1.75rem 2.5rem;color:var(--muted);font-size:.85rem}
+.foot-row{display:flex;flex-wrap:wrap;gap:.5rem 1.3rem;justify-content:space-between;align-items:baseline}
+.foot a{text-decoration:none;border-bottom:1px solid var(--line);color:var(--ink)}
+.foot-links{display:flex;flex-wrap:wrap;gap:1.1rem}
+.foot .fine{margin:1.1rem 0 0;max-width:68ch;line-height:1.55}
+
+/* ==================== compact: one screen per book ====================
+   Overrides so every book fits a 720px-tall viewport under its spines.
+   Vertical room is scarce, so paddings shrink with the viewport, shots
+   keep their full height but get narrower, and 03 goes two-column. */
+
+/* a stage darker than the app's own paper, so the screenshots read as
+   objects on it instead of melting into the page */
+:root[data-theme="dark"]{--stage:#0A0F1B;--shot-line:#2F3B5A;--shot-glow:0 14px 34px -14px rgba(0,0,0,.95)}
+:root{--stage:var(--paper);--shot-line:var(--line);--shot-glow:0 10px 24px -14px rgba(42,38,32,.4)}
+body,.book{background:var(--stage)}
+.pair img,.previews img,.wides img{border-color:var(--shot-line);box-shadow:var(--shot-glow)}
+
+/* the bar's wash runs the full width, not just the wrap */
+.pile.solid .masthead{background:transparent}
+.pile.solid{background-color:var(--stage);background-repeat:no-repeat;background-position:top;background-size:100% 100vh;
+  background-image:
+    radial-gradient(120% 90% at 8% 0%, color-mix(in oklab,var(--libros) calc(var(--wash) * 100%),transparent) 0%, transparent 62%),
+    radial-gradient(120% 95% at 52% 8%, color-mix(in oklab,var(--cine) calc(var(--wash) * 100%),transparent) 0%, transparent 60%),
+    radial-gradient(125% 95% at 96% 0%, color-mix(in oklab,var(--juegos) calc(var(--wash) * 100%),transparent) 0%, transparent 64%)}
+
+/* tighter rhythm */
+.book .body{padding-block:clamp(1.25rem,3vh,2.25rem) clamp(1rem,2.5vh,2rem)}
+.book:not(.hero) h2{font-size:clamp(1.4rem,1.1rem + 1.2vw,1.9rem);margin-bottom:.5rem}
+.head{gap:.5rem 2rem}
+.head p{margin:0 0 .45rem;font-size:.97rem;line-height:1.5}
+.head-wide h2{margin-bottom:.5rem}
+
+/* 01: the three volumes hug their text; the desktop shots sit lower and
+   shorter, cropped from the top so the app header and first rows show */
+.sectors{margin-top:1.1rem;gap:1.1rem}
+.vol{min-height:0;padding:.9rem 1.1rem 1rem 1.6rem}
+.vol h3{font-size:1.25rem;margin:.05rem 0 .3rem}
+.vol .label{margin-bottom:.45rem}
+.vol p{font-size:.9rem;line-height:1.4}
+.wides{margin-top:1.25rem;gap:1.1rem}
+.wides figure{height:clamp(150px,26vh,230px);position:relative}
+.wides img{height:100%;width:100%;object-fit:cover;object-position:top;border-radius:var(--r-card) var(--r-card) 3px 3px}
+.wides figcaption{display:none}
+.wides.shelf::after{bottom:-6px}
+.wides.shelf{padding-bottom:6px}
+
+/* 02: two rows of four, each phone cropped from the top to what fits:
+   the header and the first rows of every screen, on a board per row */
+.previews.eight{grid-template-columns:repeat(4,1fr);gap:1rem;row-gap:1.6rem;margin-top:1.1rem}
+.previews.eight figure{height:calc(clamp(160px,25vh,260px) + 1.5rem)}
+.previews.eight img{height:clamp(160px,25vh,260px);width:100%;object-fit:cover;object-position:top;border-radius:var(--r-card) var(--r-card) 3px 3px}
+.previews.eight figure::after{bottom:1.2rem}
+.previews figcaption{font-size:.72rem;margin-top:.35rem}
+/* 04: trim so the close fits under four spines */
+.book.n4 .head p{font-size:.93rem}
+.ways{margin-top:.8rem}
+.close{margin-top:.9rem;padding-top:.9rem}
+.close .actions{margin-top:.7rem}
+.bar{margin-top:.8rem}
+.foot{padding-block:.6rem .8rem}
+.foot .fine{display:none}
+
+/* 03: text left, three phones right */
+.split{display:grid;gap:1.5rem;align-items:center}
+@media (min-width:760px){.split{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:2.5rem}}
+.split h2{max-width:none}
+.split p{margin:0 0 .6rem;font-size:.95rem;line-height:1.5}
+.split .spines{margin:.75rem 0 0}
+.previews.three{margin-top:0;gap:.75rem;padding-inline:0}
+.previews.three.shelf{padding-bottom:0}
+.previews.three.shelf::after{bottom:1.35rem;left:-4%;right:-4%}
+
+/* 04: the cards themselves */
+.ways{gap:.8rem}
+.way{padding:.8rem .95rem .9rem}
+.way p{font-size:.88rem;line-height:1.45}
+.close h2{font-size:clamp(1.4rem,1.1rem + 1.2vw,1.9rem)}
+.close p{font-size:.95rem}
+.foot{font-size:.8rem}
+
+/* ==================== balance: fill the screen, not the top of it ====
+   Each book is a column; its body takes all the height under the strip and
+   the picture blocks grow into whatever the text leaves, so the empty band
+   at the bottom of a section becomes bigger pictures and even spacing. */
+/* a fixed height, not a minimum: only then can the pictures be told to
+   shrink into the room the text leaves */
+.book{display:flex;flex-direction:column;height:calc(100vh - var(--i) * var(--spine))}
+@media (max-width:699px){.book{height:auto}}
+.book .body{flex:1;display:flex;flex-direction:column;min-height:0;
+  padding-block:clamp(1.25rem,3vh,2.25rem);gap:clamp(.9rem,2.2vh,1.6rem)}
+.book .body > *{margin-top:0 !important;margin-bottom:0 !important}
+.book:not(.hero) .head{flex:none}
+
+/* 01: the desktop shots take the rest; the volumes stay their size */
+.wides{flex:1;min-height:150px;gap:1.25rem;grid-template-rows:minmax(0,1fr)}
+.wides figure{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.wides img{flex:1;min-height:0;height:auto;max-height:100%}
+.wides.shelf{padding-bottom:6px}
+
+/* 02: two rows of phones share the rest equally */
+.previews.eight{flex:1;min-height:0;grid-template-rows:minmax(0,1fr) minmax(0,1fr);row-gap:1.4rem}
+.previews.eight figure{height:100%;min-height:0;display:flex;flex-direction:column;overflow:visible}
+.previews.eight img{flex:1;min-height:0;height:auto;max-height:100%}
+.previews.eight figcaption{flex:none}
+.previews.eight figure::after{bottom:1.2rem}
+
+/* 03: the phones size to the space; text sits level with them */
+.split{flex:1;min-height:0;align-items:center}
+.previews.three{align-self:center;max-height:100%}
+
+/* 04: the ways and the close share the space evenly, the footer sits on the floor */
+.book.n4 .body{justify-content:space-evenly}
+.book.n4 .close{margin-top:0 !important}
+.book.n4 .bar,.book.n4 .foot{flex:none}
+.book.n4 .body{gap:.45rem;padding-block:clamp(.6rem,1.6vh,1.2rem)}
+.book.n4 .head p{line-height:1.42;margin-bottom:.3rem}
+.book.n4 .way{padding:.65rem .9rem .75rem}
+.book.n4 .close{padding-top:.7rem}
+.book.n4 .close h2{font-size:clamp(1.25rem,1rem + 1vw,1.6rem);margin-bottom:.3rem}
+.book.n4 .close .actions{margin-top:.5rem}
+.book.n4 .close .btn{padding:.6rem 1.2rem;min-height:40px}
+.book.n4 .foot{padding-block:.45rem .55rem}
+.book.n4 .bar{margin-top:.5rem}
+
+/* hero: masthead space on top, everything else centred in the rest */
+.book.hero .body{justify-content:center}
+
+/* ---------- back to top: floating, bottom right ---------- */
+.totop{position:fixed;right:clamp(1rem,2.5vw,2rem);bottom:clamp(1rem,2.5vw,2rem);z-index:30;
+  width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  display:grid;place-items:center;cursor:pointer;padding:0;box-shadow:0 10px 24px -10px rgba(0,0,0,.7);
+  opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s,transform .2s}
+.totop.on{opacity:1;transform:none;pointer-events:auto}
+.totop:hover{border-color:var(--muted)}
+.totop svg{width:18px;height:18px}
+
+/* ==================== whole screenshots, and 03 in two rows ====================
+   No cropping: every screenshot is shown entire, scaled to the height it
+   gets. 02 breaks out of the column so eight phones fit in one row. */
+.book .wides img,.book .previews img{width:100%;height:auto;flex:1;min-height:0;max-height:none;object-fit:contain;object-position:bottom center}
+.wides figure{overflow:visible}
+.wides img{border:0;box-shadow:none;border-radius:0}
+.wides figure{position:relative}
+/* the frame goes on a box that hugs the picture, not the flex slot */
+.previews.eight{display:flex;gap:.75rem;width:calc(100vw - 3rem);margin-left:calc(50% - 50vw + 1.5rem);align-self:flex-start;flex:none;padding-inline:0}
+/* phones keep their proportion, so the row is exactly as tall as they are
+   and the body spreads head and row evenly in the screen */
+.book .previews.eight img{aspect-ratio:375/812;flex:none;height:auto}
+.book.n2 .body{justify-content:space-evenly}
+.previews.eight figure{flex:1;min-width:0}
+.previews.eight figure::after{left:-6%;right:-6%}
+.previews.eight img{border:0;box-shadow:none;border-radius:0}
+.previews figcaption{font-size:.7rem}
+/* 03 */
+.row3{flex:1;min-height:0;display:grid;gap:2rem;align-items:stretch}
+@media (min-width:760px){.row3{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}}
+.previews.three{display:flex;gap:1rem;height:100%;min-height:0;margin:0;padding-inline:2%}
+.previews.three figure{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column}
+.previews.three img{flex:1;min-height:0;height:auto;border:0;box-shadow:none;border-radius:0}
+.previews.three.shelf::after{bottom:1.35rem}
+.accounts{display:flex;flex-direction:column;justify-content:center;gap:.7rem;
+  background:var(--card);border:var(--card-border);border-radius:var(--r-card);padding:1.25rem 1.35rem}
+.accounts h3{font-size:1.2rem;margin:0}
+.accounts p{margin:0;font-size:.93rem;line-height:1.5;color:var(--muted)}
+.accounts .spines{margin:.2rem 0}
+.accounts .import{font-size:.85rem}
+
+/* ==================== v8 adjustments ====================
+   01: volumes and shots gathered in the middle; 02: two rows of four,
+   head up top; 03: text under the title, full width. */
+.book.n1 .body{justify-content:center;gap:clamp(1rem,2.6vh,1.75rem)}
+.book.n1 .wides{flex:none;min-height:0;height:clamp(180px,36vh,600px);grid-template-rows:100%}
+.book.n1 .wides figure{height:100%;align-items:center}
+.book .wides img{flex:none;height:100%;width:auto;max-width:100%}
+.book.n2 .body{justify-content:flex-start;gap:clamp(.9rem,2.2vh,1.5rem)}
+.book.n2 .previews.eight{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:minmax(0,1fr) minmax(0,1fr);
+  gap:1rem;row-gap:1.5rem;flex:1;min-height:0;width:auto;margin-left:0;align-self:stretch;padding-inline:2%}
+.book.n2 .previews.eight figure{height:100%}
+.book .previews.eight img{aspect-ratio:auto;flex:1;min-height:0;height:auto}
+.book.n2 .previews.eight figure::after{display:block;left:-7%;right:-7%;bottom:calc(var(--cap) + var(--board-gap));height:var(--board)}
+.book.n2 .previews.eight.shelf::after{display:none}
+.book.n3 .head-wide p{max-width:47rem}
+.book.n3 .row3{margin-top:.6rem !important;grid-template-rows:minmax(0,1fr)}
+.book.n3 .previews.three{align-items:stretch}
+.book.n3 .previews.three figure{height:100%}
+/* the card hugs its text and sits level with the phones, no air inside */
+.book.n3 .accounts{align-self:center;justify-content:flex-start;gap:.6rem;padding:1.1rem 1.25rem 1.2rem}
+.book.n3 .head-wide h2{margin-bottom:.35rem}
+
+/* 03, balanced: the text sits over its own phones on the left, the card
+   sits level with that block on the right */
+.book.n3 .col3{display:flex;flex-direction:column;min-height:0;gap:.9rem}
+.book.n3 .col3 p{margin:0;font-size:.95rem;line-height:1.5;color:var(--ink)}
+.book.n3 .col3 .previews.three{flex:1;min-height:0;height:auto}
+.book.n3 .row3{margin-top:.4rem !important;gap:2.25rem;align-items:stretch}
+.book.n3 .col3{height:100%}
+.book.n3 .accounts{gap:.7rem;padding:1.25rem 1.35rem 1.35rem}
+
+/* ==================== v11 ====================
+   Ko-fi in the hero and at the close; the theme note; 03 gathered; one
+   shelf geometry everywhere; Paper gets its own screenshots (JS swaps). */
+.kofi-hero{margin:.9rem 0 0}
+.kofi-hero a{display:inline-flex;align-items:center;gap:.55rem;text-decoration:none;
+  font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;font-weight:600;font-size:.875rem;padding:.5rem .95rem .5rem .8rem;
+  border-radius:var(--r-btn);border:1px solid color-mix(in oklab,var(--libros) 55%,var(--line) 45%);
+  background:color-mix(in oklab,var(--libros) 12%,transparent);color:var(--ink)}
+.kofi-hero a:hover{background:color-mix(in oklab,var(--libros) 20%,transparent)}
+.kofi-hero svg{width:17px;height:17px;flex:none;color:var(--libros)}
+.btn-kofi{display:inline-flex;align-items:center;gap:.55rem;color:var(--ink);
+  border-color:color-mix(in oklab,var(--libros) 55%,var(--line) 45%);background:color-mix(in oklab,var(--libros) 12%,transparent)}
+.btn-kofi:hover{background:color-mix(in oklab,var(--libros) 20%,transparent)}
+.btn-kofi svg{width:17px;height:17px;color:var(--libros)}
+.themes-note{margin:0;text-align:center;color:var(--muted);font-size:.9rem;max-width:62ch;margin-inline:auto;line-height:1.45}
+.themes-note b{color:var(--ink);font-weight:600;font-family:var(--head-font)}
+.book.hero .body{gap:clamp(1.25rem,3.5vh,2.5rem)}
+
+/* 03: title, text and phones as one block, centred */
+.book.n3 .body{justify-content:center;gap:.5rem}
+.book.n3 .head-wide h2{margin-bottom:0}
+.book.n3 .row3{margin-top:.35rem !important;flex:0 1 auto;height:clamp(300px,52vh,560px)}
+.book.n3 .col3{gap:.7rem}
+
+/* one shelf geometry: a 14px board whose top edge is the bottom edge of
+   whatever stands on it, 3% overhang each side, captions 6px under it */
+:root{--board:14px;--board-gap:6px;--cap:18px}
+.book .shelf{padding-bottom:var(--board)}
+.book .shelf::after{left:-3%;right:-3%;bottom:0;height:var(--board);border-radius:2px}
+.book .previews.shelf{padding-bottom:0}
+.book .previews.shelf::after{bottom:calc(var(--cap) + var(--board-gap))}
+.book .previews figcaption{height:var(--cap);line-height:var(--cap);margin-top:calc(var(--board) + var(--board-gap));flex:none}
+.book .previews.eight figure::after{left:-7%;right:-7%;bottom:calc(var(--cap) + var(--board-gap));height:var(--board);border-radius:2px}
+.book .wides.shelf{padding-bottom:var(--board)}
+.book .wides.shelf::after{bottom:0}
+.book .pair.shelf{padding-bottom:var(--board)}
+.book .sectors.shelf{padding-bottom:var(--board)}
+
+/* ==================== v12 ====================
+   theme note at the foot of the hero; stages further from the app's own
+   paper in both themes; the volumes keep a little of their tilt; the
+   desktop shots in 01 get taller */
+.themes-note{margin-top:auto !important;padding-top:.5rem}
+:root[data-theme="dark"]{--stage:#070B14;--shot-line:#2A3552}
+:root:not([data-theme="dark"]){--stage:#E9E1CF;--shot-line:#CFC4AC;--shot-glow:0 12px 26px -14px rgba(42,38,32,.5);--shelf-a:#CDBF9F;--shelf-b:#AE9B76}
+:root:not([data-theme="dark"]) .pile .spine,:root:not([data-theme="dark"]) .spine{background:#F4EFE4}
+:root:not([data-theme="dark"]) .vol,:root:not([data-theme="dark"]) .accounts,:root:not([data-theme="dark"]) .way{background:#FBF7EE}
+.book.in .vol.l{--tilt:-2deg}
+.book.in .vol.c{--tilt:.6deg}
+.book.in .vol.r{--tilt:2.2deg}
+.book.n1 .wides{height:clamp(200px,40vh,640px)}
+.book.n1 .body{gap:clamp(.8rem,2vh,1.4rem)}
+
+/* the desktop shots are a viewport, so their bottom row is always cut:
+   a frame line and a soft fade into the board make the cut deliberate */
+.book .wides img{border:1px solid var(--shot-line);border-bottom:0;border-radius:var(--r-card) var(--r-card) 0 0;box-shadow:var(--shot-glow);
+  -webkit-mask-image:linear-gradient(#000 82%,rgba(0,0,0,.55) 94%,rgba(0,0,0,.25));mask-image:linear-gradient(#000 82%,rgba(0,0,0,.55) 94%,rgba(0,0,0,.25))}
+
+/* ==================== v13 ====================
+   bar buttons with more presence; 01 desktop shots without the fade (the
+   captures are taller now and the home fits whole); 03 head like the rest */
+.pile .btn-sm{background:var(--btn-face);color:var(--btn-text);border-color:var(--btn-face);font-weight:700}
+.pile .btn-sm:hover{opacity:.88}
+.pile .themesw{border-color:color-mix(in oklab,var(--ink) 45%,var(--line));background:color-mix(in oklab,var(--card) 70%,transparent)}
+.pile .themesw .knob{background:color-mix(in oklab,var(--ink) 22%,var(--line))}
+.book .wides img{-webkit-mask-image:none;mask-image:none;border-bottom:1px solid var(--shot-line);border-radius:var(--r-card) var(--r-card) 3px 3px}
+.book.n3 .head{grid-template-columns:minmax(0,.82fr) minmax(0,1.3fr)}
+.book.n3 .head h2{margin-bottom:0}
+.book.n3 .row3{margin-top:.5rem !important}
+/* 04: the first line has to fit the head column in Bricolage too */
+.book.n4 .head{grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr)}
+.book.n4 .head h2{font-size:clamp(1.3rem,1rem + 1.05vw,1.7rem)}
+
+/* ==================== v14: one thin line around every screenshot ====
+   Rounded a little in Digital, square in Paper: it follows --r-card, so
+   the frame speaks the same language as the cards of each theme. */
+:root{--shot-radius:calc(var(--r-card) * .8)}
+.book .pair img,.book .previews img,.book .wides img{border:1px solid var(--shot-line);border-radius:var(--shot-radius);box-shadow:var(--shot-glow)}
+:root:not([data-theme="dark"]){--shot-line:#B9AD93}
+
+/* the frame has to hug the picture, so the img box is the picture: sized by
+   aspect ratio inside whatever room the figure has, never a wider box with
+   the image floating inside it */
+.book .previews img{aspect-ratio:375/812;width:auto;height:auto;max-height:100%;max-width:100%;flex:0 1 auto;min-height:0;align-self:center;object-fit:fill;margin-top:auto}
+.book .wides img{aspect-ratio:1280/1000;width:auto;height:auto;max-height:100%;max-width:100%;flex:0 1 auto;min-height:0;align-self:center;object-fit:fill;margin-top:auto}
+.book .previews figure,.book .wides figure{display:flex;flex-direction:column;align-items:center;min-height:0}
+
+/* ==================== v15: critique items 1 and 3, and the zoom ====
+   Slim rows for the books already passed; one CTA per screen; muted
+   Paper text with more margin; one mono size; own focus ring. */
+:root{--row:28px}
+.pile .spine{height:var(--row);gap:.7rem;font-size:.8rem}
+.pile .spine::before{height:16px;width:6px}
+.pile .spine b{font-size:.85rem}
+.pile .spine .n{display:none}
+.pile .btn-sm{opacity:0;pointer-events:none;transition:opacity .2s}
+.pile.solid .btn-sm{opacity:1;pointer-events:auto}
+.book.hero .btn{min-height:48px;padding:.7rem 1.35rem}
+.kofi-hero{margin:.8rem 0 0}
+:root:not([data-theme="dark"]){--muted:#5E564B}
+.label,.spine .label,.spine .n,.previews figcaption,.wides figcaption,.marks span,.url .label,.vol .label{font-size:12px}
+.book .previews figcaption{font-size:12px}
+:focus-visible{outline:2px solid var(--cine);outline-offset:3px}
+.previews.eight figure{cursor:zoom-in;border-radius:6px}
+/* the zoom */
+.zoom{position:fixed;inset:0;z-index:50;background:color-mix(in oklab,var(--stage) 88%,transparent);backdrop-filter:blur(6px);
+  display:grid;place-items:center;padding:2rem}
+.zoom[hidden]{display:none}
+.zoom figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:.7rem;max-height:100%}
+.zoom img{max-height:calc(100vh - 6rem);max-width:min(92vw,520px);width:auto;height:auto;border:1px solid var(--shot-line);border-radius:var(--shot-radius);box-shadow:0 30px 60px -20px rgba(0,0,0,.8)}
+.zoom figcaption{font-family:var(--label-font);font-variant:var(--label-variant);letter-spacing:var(--label-spacing);font-weight:var(--label-weight);font-size:12px;color:var(--ink)}
+.zoom-close{position:absolute;top:1rem;right:1rem;width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:22px;line-height:1;cursor:pointer}
+
+/* each book is exactly the room under its pile (masthead + slim rows) */
+.book{height:calc(100vh - var(--pile,0px));min-height:0}
+@media (max-width:699px){.book{height:auto}}
+
+/* ==================== v16: hover peek in 02 ====================
+   With a pointer that can hover, the phone under the cursor appears large
+   in the middle of the screen, over the page, without dimming it. It goes
+   away when the cursor leaves. Click still opens the full-size view. */
+.peek{position:fixed;inset:0;z-index:40;display:grid;place-items:center;pointer-events:none;opacity:0;transition:opacity .18s}
+.peek.on{opacity:1}
+.peek img{max-height:calc(100vh - 5rem);max-width:min(88vw,460px);width:auto;height:auto;border:1px solid var(--shot-line);border-radius:var(--shot-radius);
+  box-shadow:0 34px 70px -20px rgba(0,0,0,.85),0 0 0 8px color-mix(in oklab,var(--stage) 70%,transparent)}
+@media (prefers-reduced-motion:reduce){.peek{transition:none}}
+@media (hover:none),(max-width:699px){.peek{display:none}}
+
+/* the "Gratis · sin anuncios" line always sits under the address, in both
+   faces: in Paper the small caps are narrow enough to share the line and
+   the two themes ended up laid out differently */
+.url{flex-direction:column;align-items:flex-start;gap:.3rem}
+
+/* ==================== v19: the pile without notches ====================
+   Rounded top corners on every strip and on every book left a dark wedge
+   at each corner where the stage showed through, one per row: the glitch.
+   Strips and books go square; the cards keep their radius. */
+.book,.spine,.pile .spine{border-radius:0}
+.pile .spine{box-shadow:none;border-bottom:1px solid var(--line)}
+.pile{box-shadow:0 8px 18px -12px rgba(0,0,0,.6)}
+.pile:not(.solid){box-shadow:none}
+
+/* ==================== v20: the strip and its copy are the same thing ====
+   The book's own strip keeps its 44px, but everything in it lives in its
+   top 28px with the same type and bar as the copy in the pile. When the
+   next book lands and the copy takes over, nothing moves by a pixel. */
+.book .spine{align-items:flex-start;gap:.7rem;font-size:.8rem}
+.book .spine > *{height:var(--row);display:flex;align-items:center}
+.book .spine::before{height:16px;width:6px;margin-top:6px}
+.book .spine b{font-size:.85rem}
+.book .spine .n{display:none}
+.pile .spine{align-items:flex-start}
+.pile .spine > *{height:var(--row);display:flex;align-items:center}
+.pile .spine::before{margin-top:6px}
+/* the book has a 1px top border the copy lacks: match it */
+.pile .spine{padding-top:1px}
+
+/* ==================== v21: no margins on sticky books ====================
+   A sticky box is held inside its container by its MARGIN box, so the
+   120px dwell margin under each book made it slide up 120px early as the
+   end of main approached (the glitch between 03 and 04), and the last
+   book was pushed up too. The dwell moves into the slot before each book,
+   which is plain flow. Transformed books entering with a tilt no longer
+   stretch the scroll range either. */
+.book:not(.hero):not(.last){margin-bottom:0}
+.book:not(.hero) + .slot{height:120px}
+main{overflow:clip}
+</style>
+</head>
+<body>
+
+<div class="pile" id="pile" aria-hidden="false">
+  <div class="wrap">
+      <header class="masthead">
+        <a class="brand" href="#"><img src="assets/logo.png" alt="">Quirekeep</a>
+        <div class="mast-controls">
+          <button type="button" class="themesw" id="themesw" aria-label="Tema Papel"><span class="knob"></span><span class="d">☾</span><span class="l">☀</span></button>
+          <a class="btn btn-ghost btn-sm" href="https://quirekeep.pages.dev">Abrir la app</a>
+        </div>
+      </header>
+  </div>
+</div>
+
+<main>
+
+  <div class="slot" style="--i:0"></div>
+  <section class="book hero">
+    <div class="body wrap">
+      <div class="hero-grid">
+        <div>
+          <h1>Biblioteca a tres</h1>
+          <ul class="marks" aria-hidden="true">
+            <li class="s-libros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8.6C9.9 7.1 7.1 6.5 4 6.9v11.4c3.1-.4 5.9.2 8 1.7 2.1-1.5 4.9-2.1 8-1.7V6.9c-3.1-.4-5.9.2-8 1.7Z"/><path d="M12 8.6V20"/></svg>Libros</li>
+            <li class="s-cine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M7.4 5.5v13M16.6 5.5v13M3 12h4.4M16.6 12h4.4"/></svg>Cine</li>
+            <li class="s-juegos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.7 8.4h6.6a5.6 5.6 0 0 1 5.5 6.6l-.3 1.8a2.4 2.4 0 0 1-4.2.9L15 16h-6l-1.3 1.7a2.4 2.4 0 0 1-4.2-.9l-.3-1.8a5.6 5.6 0 0 1 5.5-6.6Z"/><path d="M7.2 11.6v2.2M6.1 12.7h2.2M15.9 12.2h.01M17.9 13.6h.01"/></svg>Videojuegos</li>
+          </ul>
+          <p class="deck">Libros, cine y videojuegos en una sola biblioteca. Sin cuenta, sin servidor, y lo que escribes no sale de tu dispositivo.</p>
+          <div class="actions">
+            <a class="btn btn-solid" href="https://quirekeep.pages.dev">Abrir Quirekeep</a>
+            <a class="btn btn-ghost" href="https://github.com/alex20-create/quirekeep-web">Instrucciones</a>
+          </div>
+          <p class="url"><a href="https://quirekeep.pages.dev">quirekeep.pages.dev</a><span class="label muted">Gratis · sin anuncios · nada que desbloquear</span></p>
+          <p class="kofi-hero"><a href="https://ko-fi.com/alex_create"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h12v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Z"/><path d="M16 9.5h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M7.5 5V3.5M11 5V3.5M14.5 5V3.5"/></svg><span>Invítame a un café en Ko-fi</span></a></p>
+        </div>
+        <div class="pair shelf">
+          <img src="assets/movil-inicio-oscuro.webp" data-dark="assets/movil-inicio-oscuro.webp" data-light="assets/movil-inicio-claro.webp" alt="Inicio">
+          <img src="assets/movil-biblioteca-oscuro.webp" data-dark="assets/movil-biblioteca-oscuro.webp" data-light="assets/movil-biblioteca-claro.webp" alt="Biblioteca de Libros">
+        </div>
+      </div>
+      <p class="themes-note"><b>Dos temas.</b> Digital, oscuro, y Papel, claro: no es uno invertido, cambian las tipografías, las esquinas y las sombras. Se cambia arriba, con ☾ y ☀, y esta página cambia con él.</p>
+    </div>
+  </section>
+
+  <div class="slot" style="--i:1"></div>
+  <section class="book n1 s-libros">
+    <div class="spine"><span class="label">01</span><b>Tres sectores, una biblioteca</b><span class="n">Libros · Cine · Videojuegos</span></div>
+    <div class="body wrap">
+      <div class="head">
+        <h2>Tres sectores<br>Dos temas<br>Una biblioteca</h2>
+        <div>
+          <p>Cada sector funciona igual y guarda lo suyo por separado: sus estantes, sus ajustes y sus estadísticas.</p>
+          <p>No hace falta usar los tres. Apaga en Perfil los que no quieras y la app se queda solo con los que dejaste encendidos.</p>
+        </div>
+      </div>
+      <div class="sectors shelf">
+        <div class="vol l s-libros"><span class="label">Vol. I</span><h3>Libros</h3><p>Búsqueda por título o ISBN, portadas, elección de edición y progreso en páginas, minutos o por ciento.</p></div>
+        <div class="vol c s-cine"><span class="label">Vol. II</span><h3>Cine</h3><p>Temporadas y episodios con su fecha de emisión, y el reparto con el personaje que hace cada quien.</p></div>
+        <div class="vol r s-juegos"><span class="label">Vol. III</span><h3>Videojuegos</h3><p>Horas jugadas, estado y ficha con estudio, dirección, año y plataformas.</p></div>
+      </div>
+      <div class="wides shelf">
+        <figure><img src="assets/escritorio-inicio-oscuro.webp" alt="Los tres sectores en pantalla ancha con el tema Digital"><figcaption>Digital · las tres puertas en pantalla ancha</figcaption></figure>
+        <figure><img src="assets/escritorio-biblioteca-claro.webp" alt="La biblioteca en cuadrícula de portadas con el tema Papel"><figcaption>Papel · la biblioteca en cuadrícula de portadas</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="slot" style="--i:2"></div>
+  <section class="book n2 s-cine">
+    <div class="spine"><span class="label">02</span><b>Las mismas pantallas en cada sector</b><span class="n">Biblioteca · Estante · Estadísticas · Retos · Importar · Ficha</span></div>
+    <div class="body wrap">
+      <div class="head">
+        <h2>Las mismas seis pantallas en cada sector</h2>
+        <p>Las aprendes una vez y te sirven para los tres. La ficha de un título se rellena sola al buscarlo, y en una serie trae las temporadas con sus episodios y el siguiente por ver.</p>
+      </div>
+      <div class="previews eight shelf">
+        <figure><img src="assets/movil-biblioteca-libros-oscuro.webp" data-dark="assets/movil-biblioteca-libros-oscuro.webp" data-light="assets/movil-biblioteca-libros-claro.webp" alt="Biblioteca de Libros"><figcaption>Biblioteca, Libros</figcaption></figure>
+        <figure><img src="assets/movil-estante-libros-oscuro.webp" data-dark="assets/movil-estante-libros-oscuro.webp" data-light="assets/movil-estante-libros-claro.webp" alt="Estante"><figcaption>Estante</figcaption></figure>
+        <figure><img src="assets/movil-estadisticas-cine-oscuro.webp" data-dark="assets/movil-estadisticas-cine-oscuro.webp" data-light="assets/movil-estadisticas-cine-claro.webp" alt="Estadísticas de Cine"><figcaption>Estadísticas, Cine</figcaption></figure>
+        <figure><img src="assets/movil-retos-oscuro.webp" data-dark="assets/movil-retos-oscuro.webp" data-light="assets/movil-retos-claro.webp" alt="Retos"><figcaption>Retos</figcaption></figure>
+        <figure><img src="assets/movil-importar-exportar-videojuegos-oscuro.webp" data-dark="assets/movil-importar-exportar-videojuegos-oscuro.webp" data-light="assets/movil-importar-exportar-videojuegos-claro.webp" alt="Importar y exportar"><figcaption>Importar</figcaption></figure>
+        <figure><img src="assets/movil-ficha-oscuro.webp" data-dark="assets/movil-ficha-oscuro.webp" data-light="assets/movil-ficha-claro.webp" alt="La ficha de un libro"><figcaption>Ficha de un libro</figcaption></figure>
+        <figure><img src="assets/movil-ficha-serie-oscuro.webp" data-dark="assets/movil-ficha-serie-oscuro.webp" data-light="assets/movil-ficha-serie-claro.webp" alt="La ficha de una serie: productora, creación, reparto y episodios"><figcaption>Ficha de una serie</figcaption></figure>
+        <figure><img src="assets/movil-ficha-serie-temporadas-oscuro.webp" data-dark="assets/movil-ficha-serie-temporadas-oscuro.webp" data-light="assets/movil-ficha-serie-temporadas-claro.webp" alt="Las temporadas de una serie, con los episodios vistos y el siguiente por ver"><figcaption>Temporadas</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="slot" style="--i:3"></div>
+  <section class="book n3 s-juegos">
+    <div class="spine"><span class="label">03</span><b>Solo lo que uses</b><span class="n">Sectores · Cuentas</span></div>
+    <div class="body wrap">
+      <div class="head">
+        <h2 class="h2-lines">Apaga lo que no uses.<br>Las cuentas, donde están.</h2>
+        <div>
+          <p>No hace falta usar los tres sectores. En Perfil apagas los que no quieras y la app se queda solo con los que dejaste encendidos: sin pestañas vacías y sin restos. Se vuelven a encender cuando quieras, con lo suyo intacto.</p>
+        </div>
+      </div>
+      <div class="row3">
+        <div class="col3">
+          <div class="previews three shelf">
+          <figure><img src="assets/movil-perfil-sector-apagado-oscuro.webp" data-dark="assets/movil-perfil-sector-apagado-oscuro.webp" data-light="assets/movil-perfil-sector-apagado-claro.webp" alt="Perfil con Videojuegos apagado"><figcaption>Perfil</figcaption></figure>
+          <figure><img src="assets/movil-inicio-dos-sectores-oscuro.webp" data-dark="assets/movil-inicio-dos-sectores-oscuro.webp" data-light="assets/movil-inicio-dos-sectores-claro.webp" alt="Inicio con solo dos sectores encendidos"><figcaption>Dos sectores</figcaption></figure>
+          <figure><img src="assets/movil-inicio-solo-videojuegos-oscuro.webp" data-dark="assets/movil-inicio-solo-videojuegos-oscuro.webp" data-light="assets/movil-inicio-solo-videojuegos-claro.webp" alt="Inicio con solo Videojuegos encendido"><figcaption>Solo Videojuegos</figcaption></figure>
+          </div>
+        </div>
+        <div class="accounts">
+          <h3>Las cuentas de siempre</h3>
+          <p>Quirekeep no se conecta a ninguna. Guarda cuáles tienen ya cada título, para que sepas qué te queda por subir, y la cola de sincronización te lo deja listo para copiar.</p>
+          <ul class="spines">
+            <li class="b-booktower">Booktower</li><li class="b-storygraph">StoryGraph</li><li class="b-pagebound">Pagebound</li><li class="b-goodreads">Goodreads</li>
+            <li class="b-letterboxd">Letterboxd</li><li class="b-trakt">Trakt</li><li class="b-ign">IGN</li><li class="b-backloggd">Backloggd</li><li class="b-steam">Steam</li>
+          </ul>
+          <p class="import">La importación lee los CSV de Goodreads, StoryGraph, Pagebound y Letterboxd, y el JSON de Trakt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="slot" style="--i:4"></div>
+  <section class="book n4 last" id="instalar">
+    <div class="spine"><span class="label">04</span><b>Se guarda en tu dispositivo</b><span class="n">Android · iPhone · Windows y Mac</span></div>
+    <div class="body wrap">
+      <div class="head">
+        <h2 class="h2-lines">Se guarda en tu dispositivo<br>y no sale de ahí</h2>
+        <div>
+          <p>Todo vive en el almacenamiento de tu navegador, en ese aparato y en ningún otro sitio. Sin cuenta, sin servidor, nada se envía.</p>
+          <p>No está en la App Store ni en Google Play. Abres una dirección y le dices al navegador que se la quede.</p>
+        </div>
+      </div>
+      <div class="ways">
+        <div class="way"><h3>Android</h3><p>En Chrome, abre el menú de los tres puntos y elige <span class="ui">Instalar aplicación</span>.</p></div>
+        <div class="way"><h3>iPhone y iPad</h3><p>En Safari, no en otro navegador. Toca el botón de compartir y elige <span class="ui">Añadir a pantalla de inicio</span>.</p></div>
+        <div class="way"><h3>Windows y Mac</h3><p>En Chrome o Edge, pulsa el icono de instalar al final de la barra de direcciones.</p></div>
+      </div>
+      <div class="close">
+        <h2>Tu biblioteca empieza vacía</h2>
+        <p class="muted">Añade lo que estés leyendo ahora mismo y mira si te compensa.</p>
+        <div class="actions"><a class="btn btn-solid" href="https://quirekeep.pages.dev">Abrir Quirekeep</a><a class="btn btn-kofi" href="https://ko-fi.com/alex_create"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h12v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Z"/><path d="M16 9.5h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M7.5 5V3.5M11 5V3.5M14.5 5V3.5"/></svg>Invítame a un café</a></div>
+      </div>
+    </div>
+    <div class="bar"></div>
+    <footer class="foot">
+      <div class="wrap">
+        <div class="foot-row">
+          <span>Quirekeep</span>
+          <span class="foot-links">
+            <a href="https://quirekeep.pages.dev">Abrir la app</a>
+            <a href="https://github.com/alex20-create/quirekeep-web">Documentación</a>
+            <a href="https://ko-fi.com/alex_create">Ko-fi</a>
+          </span>
+        </div>
+        <p class="fine">Los datos de los títulos vienen de Open Library para libros, Wikidata y Wikipedia para cine, series y videojuegos, y TVMaze para temporadas, episodios y repartos.</p>
+      </div>
+    </footer>
+  </section>
+
+<div class="peek" id="peek" aria-hidden="true"><img id="peekimg" src="" alt=""></div>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Captura ampliada">
+  <button type="button" class="zoom-close" id="zoomclose" aria-label="Cerrar">×</button>
+  <figure><img id="zoomimg" src="" alt=""><figcaption id="zoomcap"></figcaption></figure>
+</div>
+
+<button type="button" class="totop" id="totop" aria-label="Volver arriba"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+</main>
+
+<script>
+/* Settle each book once a fifth of it is on screen. Works everywhere;
+   animation-timeline: view() would drop this, but Firefox lacks it. */
+const io = new IntersectionObserver(entries => {
+  for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+}, { threshold: 0.2 });
+document.querySelectorAll(".book:not(.hero)").forEach(b => io.observe(b));
+
+const books = [...document.querySelectorAll(".book")];
+const slots = [...document.querySelectorAll(".slot")];
+const pile = document.getElementById("pile");
+const spine = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--spine"));
+const piled = () => window.matchMedia("(min-width: 700px)").matches;
+const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* the pile above book N: the masthead plus one slim row per book passed */
+const row = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--row"));
+const pileHeight = i => i === 0 ? 0 : spine() + (i - 1) * row();
+
+/* where book N pins: under the pile if it fits there, else by its bottom */
+/* --pile sizes the book, so it is set outside the observer: a ResizeObserver
+   callback that resizes what it observes trips the browser's loop guard */
+function layoutPile() { books.forEach((b, i) => b.style.setProperty("--pile", pileHeight(i) + "px")); }
+function pins() {
+  const vh = window.innerHeight;
+  books.forEach((b, i) => b.style.setProperty("--pin", Math.min(pileHeight(i), vh - b.offsetHeight) + "px"));
+}
+layoutPile();
+window.addEventListener("resize", () => { layoutPile(); pins(); });
+const ro = new ResizeObserver(() => requestAnimationFrame(pins));
+books.forEach(b => ro.observe(b));
+pins();
+
+/* one row in the pile per book, a copy of its strip, shown once passed */
+const rows = books.slice(1).map(b => {
+  const row = b.querySelector(".spine").cloneNode(true);
+  const sector = [...b.classList].find(c => c.startsWith("s-"));
+  if (sector) row.classList.add(sector);
+  row.setAttribute("aria-hidden", "true");
+  pile.appendChild(row);
+  return row;
+});
+
+/* landing point of book N = its slot's top minus the N spines above it */
+const landings = () => books.map((b, i) => Math.round(b.offsetTop - (piled() ? pileHeight(i) : 0)));
+
+function paintPile() {
+  const y = window.scrollY, L = landings();
+  /* a book's row appears when the NEXT book has landed on it: until then
+     the book's own strip is on screen, and showing both at once left the
+     real strip peeking out under its copy, folded */
+  rows.forEach((row, k) => row.classList.toggle("on", L[k + 2] !== undefined && y >= L[k + 2] - 1));
+  pile.classList.toggle("solid", y > L[1] - 1);
+}
+window.addEventListener("scroll", paintPile, { passive: true });
+window.addEventListener("resize", paintPile);
+paintPile();
+
+/* ---------- the stop between books ----------
+   Every landing is a wall. A wheel gesture that would cross one stops on
+   it; the next gesture (after a pause) goes through. Inside a book the
+   wheel scrolls as usual. Keys do the same: Space and PageDown go to the
+   next wall or a screen down, whichever comes first. Touch is left to the
+   browser: below 700px there is no pile and no wall. */
+let wallHit = null, lastWheel = 0, glideTo = null;
+const GESTURE_GAP = 350;   /* ms of silence that ends a wheel gesture */
+
+function stepTo(target) {
+  target = Math.max(0, Math.min(target, document.documentElement.scrollHeight - window.innerHeight));
+  glideTo = target;
+  window.scrollTo({ top: target, behavior: reduced() ? "instant" : "smooth" });
+}
+
+/* the first wall strictly between here and there, in the direction of travel */
+function wallBetween(from, to) {
+  const L = landings();
+  return to > from ? L.find(l => l > from + 1 && l <= to) : [...L].reverse().find(l => l < from - 1 && l >= to);
+}
+
+window.addEventListener("wheel", e => {
+  if (!piled() || e.ctrlKey || zoomOpen) return;
+  const now = performance.now(), fresh = now - lastWheel > GESTURE_GAP;
+  lastWheel = now;
+  const dy = e.deltaMode === 1 ? e.deltaY * 40 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+  if (Math.abs(dy) < 1) return;
+  e.preventDefault();
+  const from = glideTo ?? window.scrollY;
+  if (fresh) wallHit = null;
+  /* already stopped on a wall by this gesture: swallow the rest of it */
+  if (wallHit !== null && Math.sign(dy) === wallHit.dir) return;
+  let to = from + dy;
+  const wall = wallBetween(from, to);
+  if (wall !== undefined) { to = wall; wallHit = { at: wall, dir: Math.sign(dy) }; }
+  stepTo(to);
+}, { passive: false });
+
+window.addEventListener("keydown", e => {
+  if (!piled() || zoomOpen || e.target.matches("input, textarea, select, button, a")) return;
+  const vh = window.innerHeight, y = window.scrollY;
+  let to = null;
+  if (e.key === " " || e.key === "PageDown") to = y + vh * 0.85;
+  else if (e.key === "PageUp") to = y - vh * 0.85;
+  else if (e.key === "ArrowDown") to = y + 120;
+  else if (e.key === "ArrowUp") to = y - 120;
+  if (to === null) return;
+  e.preventDefault();
+  const wall = wallBetween(y, to);
+  stepTo(wall !== undefined ? wall : to);
+});
+
+/* forget the glide target once the scroll actually settles there */
+window.addEventListener("scroll", () => { if (glideTo !== null && Math.abs(window.scrollY - glideTo) < 2) glideTo = null; }, { passive: true });
+
+/* the magnet: when a gesture ends short of a wall ahead, within a third of
+   the viewport, finish the move. Never backwards. */
+let dir = 1, lastY = window.scrollY, magnetTimer = 0;
+window.addEventListener("scroll", () => { const y = window.scrollY; if (y !== lastY) dir = y > lastY ? 1 : -1; lastY = y; }, { passive: true });
+function magnet() {
+  if (glideTo !== null || reduced() || !piled()) return;
+  const y = window.scrollY, reach = window.innerHeight * 0.34;
+  const target = landings().find(l => dir > 0 ? (y > l - reach && y < l - 1) : (y < l + reach && y > l + 1));
+  if (target !== undefined) stepTo(target);
+}
+if ("onscrollend" in window) window.addEventListener("scrollend", magnet);
+else window.addEventListener("scroll", () => { clearTimeout(magnetTimer); magnetTimer = setTimeout(magnet, 140); }, { passive: true });
+
+
+/* back to top: shows once the hero is behind; a deliberate jump, no walls */
+const totop = document.getElementById("totop");
+window.addEventListener("scroll", () => totop.classList.toggle("on", window.scrollY > landings()[1] - 1), { passive: true });
+totop.addEventListener("click", () => { glideTo = null; wallHit = null; window.scrollTo({ top: 0, behavior: reduced() ? "instant" : "smooth" }); });
+
+/* zoom: any phone in 02 opens large, in the current theme. Esc, the ×
+   or a click outside closes it. The walls sleep while it is open. */
+const zoom = document.getElementById("zoom"), zoomImg = document.getElementById("zoomimg"), zoomCap = document.getElementById("zoomcap");
+let zoomOpen = false, zoomFrom = null;
+function openZoom(fig) {
+  const img = fig.querySelector("img");
+  zoomImg.src = img.getAttribute("src"); zoomImg.alt = img.alt; zoomCap.textContent = fig.querySelector("figcaption").textContent;
+  zoom.hidden = false; zoomOpen = true; zoomFrom = fig; document.body.style.overflow = "hidden"; peek.classList.remove("on");
+  document.getElementById("zoomclose").focus();
+}
+function closeZoom() {
+  zoom.hidden = true; zoomOpen = false; document.body.style.overflow = "";
+  if (zoomFrom) zoomFrom.focus();
+}
+const peek = document.getElementById("peek"), peekImg = document.getElementById("peekimg");
+const canHover = window.matchMedia("(hover: hover)").matches;
+document.querySelectorAll(".previews.eight figure").forEach(fig => {
+  if (canHover) {
+    fig.addEventListener("mouseenter", () => { if (zoomOpen) return; peekImg.src = fig.querySelector("img").getAttribute("src"); peek.classList.add("on"); });
+    fig.addEventListener("mouseleave", () => peek.classList.remove("on"));
+  }
+  fig.tabIndex = 0; fig.setAttribute("role", "button"); fig.setAttribute("aria-label", "Ampliar: " + fig.querySelector("figcaption").textContent);
+  fig.addEventListener("click", () => openZoom(fig));
+  fig.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openZoom(fig); } });
+});
+document.getElementById("zoomclose").addEventListener("click", closeZoom);
+zoom.addEventListener("click", e => { if (e.target === zoom) closeZoom(); });
+window.addEventListener("keydown", e => { if (zoomOpen && e.key === "Escape") closeZoom(); }, true);
+
+/* theme switch: Paper is untuned here, it only proves the variables hold */
+const root = document.documentElement, sw = document.getElementById("themesw");
+const shots = [...document.querySelectorAll("img[data-light]")];
+function paintShots() {
+  const light = root.getAttribute("data-theme") === "light";
+  shots.forEach(i => { const want = light ? i.dataset.light : i.dataset.dark; if (i.getAttribute("src") !== want) i.setAttribute("src", want); });
+}
+sw.addEventListener("click", () => {
+  const dark = root.getAttribute("data-theme") !== "light";
+  root.setAttribute("data-theme", dark ? "light" : "dark");
+  sw.setAttribute("aria-label", dark ? "Tema Digital" : "Tema Papel");
+  paintShots();
+});
+</script>
+</body>
+</html>
