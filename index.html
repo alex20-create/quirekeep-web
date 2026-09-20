@@ -617,6 +617,9 @@ main{overflow:clip}
    scroller that snaps phone by phone. No hover. */
 @media (max-width:699px){
   .book .body{padding-block:1.6rem 2rem;gap:1.25rem}
+  /* a flick covers the 120px dwell in one go: a book stays pinned for most
+     of a screen of scroll before the next one slides over, the hero too */
+  .book + .slot,.book:not(.hero) + .slot{height:70vh}
   .langsw{padding:5px 20px 5px 7px}
   /* the bar's button: first, always there, as quiet as the language select, with an arrow out */
   .pile .btn-sm{opacity:1;pointer-events:auto;background:transparent;color:var(--muted);border-color:var(--line);font-weight:600;font-size:12px;
