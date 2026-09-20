@@ -61,6 +61,9 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
 .btn-solid{background:var(--btn-face);color:var(--btn-text);border-color:var(--btn-face)}
 .btn-ghost{background:transparent;color:var(--ink)}
 .btn-sm{padding:.3rem .85rem;font-size:.8125rem;min-height:30px}
+/* the bar's button and the language names have a short form for phones */
+.btn-sm .narrow,.btn-sm svg,.swipe{display:none}
+@media (max-width:699px){.btn-sm .wide{display:none}.btn-sm .narrow{display:inline}}
 
 /* ---------- masthead: inside the hero so it stays while the hero is pinned ---------- */
 /* exactly one spine tall: it is the strip of the hero that the pile keeps */
@@ -104,8 +107,6 @@ h2{font-size:clamp(1.55rem,1.25rem + 1.35vw,2.2rem);max-width:26ch}
     var(--paper)}
 .pile .spine{display:none;box-shadow:0 6px 16px -10px rgba(0,0,0,.6)}
 .pile .spine.on{display:flex}
-/* narrow screens: no pile, the strips become plain section headers */
-@media (max-width:699px){.book{position:static;min-height:0;border-radius:0;box-shadow:none}.book.hero{min-height:100svh}.pile .spine{display:none !important}}
 
 /* ---------- the stop at each book ----------
    Not CSS scroll snapping: with a sticky pile Chrome snaps to nonsense, and
@@ -554,7 +555,9 @@ body,.book{background:var(--stage)}
 
 /* each book is exactly the room under its pile (masthead + slim rows) */
 .book{height:calc(100vh - var(--pile,0px));min-height:0}
-@media (max-width:699px){.book{height:auto}}
+/* on a phone a book is at least that, and grows with its content: a taller
+   one pins by its bottom, so it scrolls through before the next slides over */
+@media (max-width:699px){.book{height:auto;min-height:calc(100vh - var(--pile,0px))}}
 
 /* ==================== v16: hover peek in 02 ====================
    With a pointer that can hover, the phone under the cursor appears large
@@ -608,21 +611,21 @@ body,.book{background:var(--stage)}
 main{overflow:clip}
 
 /* ==================== phone (under 700px) ====================
-   No pile, no walls, no hover: the books stack as plain sections under a
-   fixed masthead, each strip is a section header again, and rows of
-   phones become a sideways scroller that snaps phone by phone. */
+   The same pile as on a wide screen: the books stack under the fixed
+   masthead and the strips gather up there. What changes is the layout
+   inside each book: one column, and rows of phones become a sideways
+   scroller that snaps phone by phone. No hover. */
 @media (max-width:699px){
-  .book,.book.hero{position:static;height:auto;min-height:0;overflow:visible;border-top:1px solid var(--line)}
-  .book.hero{border-top:0}
   .book .body{padding-block:1.6rem 2rem;gap:1.25rem}
-  .book .spine{align-items:center;gap:.8rem;font-size:.85rem}
-  .book .spine > *{height:auto}
-  .book .spine::before{margin-top:0;height:22px;width:8px}
-  .book .spine b{font-size:.95rem}
+  .langsw{padding:5px 20px 5px 7px}
+  /* the bar's button: first, always there, as quiet as the language select, with an arrow out */
+  .pile .btn-sm{opacity:1;pointer-events:auto;background:transparent;color:var(--muted);border-color:var(--line);font-weight:600;font-size:12px;
+    display:inline-flex;align-items:center;gap:.3rem;padding:5px 9px;transition:none;order:-1}
+  .pile .btn-sm svg{display:block;width:12px;height:12px}
 
   /* hero: one column, the two phones side by side on their board */
   .hero-grid{gap:1.75rem}
-  .book.hero .body{padding-top:1.25rem}
+  .book.hero .body{padding-top:2.5rem}
   .pair{grid-template-columns:1fr 1fr;padding-inline:5%}
   .themes-note{margin-top:.25rem !important;font-size:.85rem}
   h1{font-size:2.4rem}
@@ -634,7 +637,12 @@ main{overflow:clip}
     width:auto;margin:0 calc(-1 * clamp(1.15rem,4.5vw,2.75rem));padding:0 clamp(1.15rem,4.5vw,2.75rem) 4px;
     scrollbar-width:none;height:auto;flex:none;align-items:flex-end}
   .book.n2 .previews.eight::-webkit-scrollbar,.book.n3 .previews.three::-webkit-scrollbar{display:none}
-  .book.n2 .previews.eight figure,.book.n3 .previews.three figure{flex:0 0 48vw;scroll-snap-align:start;height:auto;min-height:0;position:relative;padding-bottom:0}
+  /* the next phone peeks in, the right edge fades until the end is reached
+     (JS sets .end), and a line under the row says to swipe */
+  .book.n2 .previews.eight figure,.book.n3 .previews.three figure{flex:0 0 42vw;scroll-snap-align:start;height:auto;min-height:0;position:relative;padding-bottom:0}
+  .book.n2 .previews.eight:not(.end),.book.n3 .previews.three:not(.end){
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 3.5rem),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 3.5rem),transparent)}
+  .swipe{display:block;margin:.6rem 0 0;text-align:right}
   .book .previews img{width:100%;height:auto;max-height:none;max-width:100%;aspect-ratio:375/812;flex:none;margin:0}
   /* one board per phone, joined by the overhang */
   .book.n2 .previews.eight figure::after,.book.n3 .previews.three figure::after{content:"";position:absolute;left:-8%;right:-8%;bottom:calc(var(--cap) + var(--board-gap));height:var(--board);border-radius:2px;z-index:0;
@@ -669,7 +677,6 @@ main{overflow:clip}
   .close .actions{flex-direction:column;align-items:stretch}
   .close .actions .btn{justify-content:center}
 
-  .book:not(.hero){transform:none;transition:none}
 }
 </style>
 <script>
@@ -690,7 +697,7 @@ main{overflow:clip}
             <option value="en">English</option>
           </select>
           <button type="button" class="themesw" id="themesw" aria-label="Tema Papel"><span class="knob"></span><span class="d">☾</span><span class="l">☀</span></button>
-          <a class="btn btn-ghost btn-sm" href="https://quirekeep.pages.dev" data-en="Open the app">Abrir la app</a>
+          <a class="btn btn-ghost btn-sm" href="https://quirekeep.pages.dev"><span class="wide" data-en="Open the app">Abrir la app</span><span class="narrow" data-en="Open">Abrir</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
         </div>
       </header>
   </div>
@@ -767,6 +774,7 @@ main{overflow:clip}
         <figure><img src="docs/assets/landing/movil-ficha-serie-oscuro.webp" data-dark="docs/assets/landing/movil-ficha-serie-oscuro.webp" data-light="docs/assets/landing/movil-ficha-serie-claro.webp" alt="La ficha de una serie: productora, creación, reparto y episodios" data-en-alt="A series' record: studio, creators, cast and episodes"><figcaption data-en="A series' record">Ficha de una serie</figcaption></figure>
         <figure><img src="docs/assets/landing/movil-ficha-serie-temporadas-oscuro.webp" data-dark="docs/assets/landing/movil-ficha-serie-temporadas-oscuro.webp" data-light="docs/assets/landing/movil-ficha-serie-temporadas-claro.webp" alt="Las temporadas de una serie, con los episodios vistos y el siguiente por ver" data-en-alt="A series' seasons, episodes watched and the next one to watch"><figcaption data-en="Seasons">Temporadas</figcaption></figure>
       </div>
+      <p class="swipe label muted" data-en="Swipe to see more →">Desliza para ver más →</p>
     </div>
   </section>
 
@@ -787,6 +795,7 @@ main{overflow:clip}
           <figure><img src="docs/assets/landing/movil-inicio-dos-sectores-oscuro.webp" data-dark="docs/assets/landing/movil-inicio-dos-sectores-oscuro.webp" data-light="docs/assets/landing/movil-inicio-dos-sectores-claro.webp" alt="Inicio con solo dos sectores encendidos" data-en-alt="Home with only two sectors on"><figcaption data-en="Two sectors">Dos sectores</figcaption></figure>
           <figure><img src="docs/assets/landing/movil-inicio-solo-videojuegos-oscuro.webp" data-dark="docs/assets/landing/movil-inicio-solo-videojuegos-oscuro.webp" data-light="docs/assets/landing/movil-inicio-solo-videojuegos-claro.webp" alt="Inicio con solo Videojuegos encendido" data-en-alt="Home with only Games on"><figcaption data-en="Only Games">Solo Videojuegos</figcaption></figure>
           </div>
+          <p class="swipe label muted" data-en="Swipe to see more →">Desliza para ver más →</p>
         </div>
         <div class="accounts">
           <h3 data-en="The accounts you already have">Las cuentas de siempre</h3>
@@ -862,7 +871,7 @@ const books = [...document.querySelectorAll(".book")];
 const slots = [...document.querySelectorAll(".slot")];
 const pile = document.getElementById("pile");
 const spine = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--spine"));
-const piled = () => window.matchMedia("(min-width: 700px)").matches;
+const phone = window.matchMedia("(max-width: 699px)");
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* the pile above book N: the masthead plus one slim row per book passed */
@@ -893,16 +902,22 @@ const rows = books.slice(1).map(b => {
   return row;
 });
 
-/* landing point of book N = its slot's top minus the N spines above it */
-const landings = () => books.map((b, i) => Math.round(b.offsetTop - (piled() ? pileHeight(i) : 0)));
+/* landing point of book N = the end of its slot minus the N spines above it.
+   The slot, not the book: a stuck book's offsetTop moves with the scroll */
+const landings = () => books.map((b, i) => Math.round(slots[i].offsetTop + slots[i].offsetHeight - pileHeight(i)));
 
 function paintPile() {
   const y = window.scrollY, L = landings();
   /* a book's row appears when the NEXT book has landed on it: until then
      the book's own strip is on screen, and showing both at once left the
      real strip peeking out under its copy, folded */
-  rows.forEach((row, k) => row.classList.toggle("on", L[k + 2] !== undefined && y >= L[k + 2] - 1));
-  pile.classList.toggle("solid", y > L[1] - 1);
+  /* a book taller than the screen pins by its bottom, so its own strip
+     scrolls up under the pile: the copy takes over the moment it does */
+  rows.forEach((row, k) => row.classList.toggle("on",
+    (L[k + 2] !== undefined && y >= L[k + 2] - 1) || books[k + 1].getBoundingClientRect().top < pileHeight(k + 1) - 1));
+  /* on a phone the hero is taller than the screen and scrolls under the
+     bar, so the bar is solid from the start */
+  pile.classList.toggle("solid", phone.matches || y > L[1] - 1);
 }
 window.addEventListener("scroll", paintPile, { passive: true });
 window.addEventListener("resize", paintPile);
@@ -912,8 +927,8 @@ paintPile();
    Every landing is a wall. A wheel gesture that would cross one stops on
    it; the next gesture (after a pause) goes through. Inside a book the
    wheel scrolls as usual. Keys do the same: Space and PageDown go to the
-   next wall or a screen down, whichever comes first. Touch is left to the
-   browser: below 700px there is no pile and no wall. */
+   next wall or a screen down, whichever comes first. Touch has neither
+   wheel nor keys, so on a phone only the magnet below applies. */
 let wallHit = null, lastWheel = 0, glideTo = null;
 const GESTURE_GAP = 350;   /* ms of silence that ends a wheel gesture */
 
@@ -930,7 +945,7 @@ function wallBetween(from, to) {
 }
 
 window.addEventListener("wheel", e => {
-  if (!piled() || e.ctrlKey || zoomOpen) return;
+  if (e.ctrlKey || zoomOpen) return;
   const now = performance.now(), fresh = now - lastWheel > GESTURE_GAP;
   lastWheel = now;
   const dy = e.deltaMode === 1 ? e.deltaY * 40 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
@@ -947,7 +962,7 @@ window.addEventListener("wheel", e => {
 }, { passive: false });
 
 window.addEventListener("keydown", e => {
-  if (!piled() || zoomOpen || e.target.matches("input, textarea, select, button, a")) return;
+  if (zoomOpen || e.target.matches("input, textarea, select, button, a")) return;
   const vh = window.innerHeight, y = window.scrollY;
   let to = null;
   if (e.key === " " || e.key === "PageDown") to = y + vh * 0.85;
@@ -968,7 +983,7 @@ window.addEventListener("scroll", () => { if (glideTo !== null && Math.abs(windo
 let dir = 1, lastY = window.scrollY, magnetTimer = 0;
 window.addEventListener("scroll", () => { const y = window.scrollY; if (y !== lastY) dir = y > lastY ? 1 : -1; lastY = y; }, { passive: true });
 function magnet() {
-  if (glideTo !== null || reduced() || !piled()) return;
+  if (glideTo !== null || reduced()) return;
   const y = window.scrollY, reach = window.innerHeight * 0.34;
   const target = landings().find(l => dir > 0 ? (y > l - reach && y < l - 1) : (y < l + reach && y > l + 1));
   if (target !== undefined) stepTo(target);
@@ -1051,6 +1066,20 @@ let savedL = null; try { savedL = localStorage.getItem(KL); } catch (e) {}
 if (savedL !== "es" && savedL !== "en") savedL = (navigator.language || "es").toLowerCase().indexOf("es") === 0 ? "es" : "en";
 setLang(savedL);
 lang.addEventListener("change", () => setLang(lang.value));
+
+/* on a phone the language names shrink to two letters */
+const LANG_NAMES = { es: ["Español", "Es"], en: ["English", "En"] };
+function paintLangNames() { [...lang.options].forEach(o => { o.textContent = LANG_NAMES[o.value][phone.matches ? 1 : 0]; }); }
+phone.addEventListener("change", paintLangNames);
+paintLangNames();
+
+/* the sideways rows on a phone: the right edge fades until the last phone is in view */
+document.querySelectorAll(".book.n2 .previews.eight, .book.n3 .previews.three").forEach(row => {
+  const paint = () => row.classList.toggle("end", row.scrollLeft + row.clientWidth >= row.scrollWidth - 2);
+  row.addEventListener("scroll", paint, { passive: true });
+  window.addEventListener("resize", paint);
+  paint();
+});
 </script>
 </body>
 </html>
