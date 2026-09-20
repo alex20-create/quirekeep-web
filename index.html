@@ -555,9 +555,7 @@ body,.book{background:var(--stage)}
 
 /* each book is exactly the room under its pile (masthead + slim rows) */
 .book{height:calc(100vh - var(--pile,0px));min-height:0}
-/* on a phone a book is at least that, and grows with its content: a taller
-   one pins by its bottom, so it scrolls through before the next slides over */
-@media (max-width:699px){.book{height:auto;min-height:calc(100vh - var(--pile,0px))}}
+@media (max-width:699px){.book{height:auto}}
 
 /* ==================== v16: hover peek in 02 ====================
    With a pointer that can hover, the phone under the cursor appears large
@@ -611,15 +609,17 @@ body,.book{background:var(--stage)}
 main{overflow:clip}
 
 /* ==================== phone (under 700px) ====================
-   The same pile as on a wide screen: the books stack under the fixed
-   masthead and the strips gather up there. What changes is the layout
-   inside each book: one column, and rows of phones become a sideways
-   scroller that snaps phone by phone. No hover. */
+   Plain scrolling: no pile of books, no walls, no magnet, no hover. The
+   books are ordinary sections in flow, one column each, and rows of phones
+   become a sideways scroller that snaps phone by phone. The strips still
+   gather under the masthead: each one's copy appears when the real strip
+   scrolls under the pile, and leaves when it comes back. */
 @media (max-width:699px){
+  .book,.book.hero{position:static;height:auto;min-height:0;overflow:visible;box-shadow:none}
+  .book.hero{min-height:100svh}
+  .book:not(.hero) + .slot{height:0}
+  .book:not(.hero){transform:none;transition:none}
   .book .body{padding-block:1.6rem 2rem;gap:1.25rem}
-  /* a flick covers the 120px dwell in one go: a book stays pinned for most
-     of a screen of scroll before the next one slides over, the hero too */
-  .book + .slot,.book:not(.hero) + .slot{height:70vh}
   .langsw{padding:5px 20px 5px 7px}
   /* the bar's button: first, always there, as quiet as the language select, with an arrow out */
   .pile .btn-sm{opacity:1;pointer-events:auto;background:transparent;color:var(--muted);border-color:var(--line);font-weight:600;font-size:12px;
@@ -914,8 +914,9 @@ function paintPile() {
   /* a book's row appears when the NEXT book has landed on it: until then
      the book's own strip is on screen, and showing both at once left the
      real strip peeking out under its copy, folded */
-  /* a book taller than the screen pins by its bottom, so its own strip
-     scrolls up under the pile: the copy takes over the moment it does */
+  /* on a phone the books are not sticky, so a strip simply scrolls up
+     under the pile: the copy takes over the moment it does, and goes when
+     the strip comes back */
   rows.forEach((row, k) => row.classList.toggle("on",
     (L[k + 2] !== undefined && y >= L[k + 2] - 1) || books[k + 1].getBoundingClientRect().top < pileHeight(k + 1) - 1));
   /* on a phone the hero is taller than the screen and scrolls under the
@@ -930,8 +931,8 @@ paintPile();
    Every landing is a wall. A wheel gesture that would cross one stops on
    it; the next gesture (after a pause) goes through. Inside a book the
    wheel scrolls as usual. Keys do the same: Space and PageDown go to the
-   next wall or a screen down, whichever comes first. Touch has neither
-   wheel nor keys, so on a phone only the magnet below applies. */
+   next wall or a screen down, whichever comes first. On a phone there is
+   no pile, so no wall and no magnet: the scroll is the browser's. */
 let wallHit = null, lastWheel = 0, glideTo = null;
 const GESTURE_GAP = 350;   /* ms of silence that ends a wheel gesture */
 
@@ -948,7 +949,7 @@ function wallBetween(from, to) {
 }
 
 window.addEventListener("wheel", e => {
-  if (e.ctrlKey || zoomOpen) return;
+  if (phone.matches || e.ctrlKey || zoomOpen) return;
   const now = performance.now(), fresh = now - lastWheel > GESTURE_GAP;
   lastWheel = now;
   const dy = e.deltaMode === 1 ? e.deltaY * 40 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
@@ -965,7 +966,7 @@ window.addEventListener("wheel", e => {
 }, { passive: false });
 
 window.addEventListener("keydown", e => {
-  if (zoomOpen || e.target.matches("input, textarea, select, button, a")) return;
+  if (phone.matches || zoomOpen || e.target.matches("input, textarea, select, button, a")) return;
   const vh = window.innerHeight, y = window.scrollY;
   let to = null;
   if (e.key === " " || e.key === "PageDown") to = y + vh * 0.85;
@@ -986,7 +987,7 @@ window.addEventListener("scroll", () => { if (glideTo !== null && Math.abs(windo
 let dir = 1, lastY = window.scrollY, magnetTimer = 0;
 window.addEventListener("scroll", () => { const y = window.scrollY; if (y !== lastY) dir = y > lastY ? 1 : -1; lastY = y; }, { passive: true });
 function magnet() {
-  if (glideTo !== null || reduced()) return;
+  if (glideTo !== null || reduced() || phone.matches) return;
   const y = window.scrollY, reach = window.innerHeight * 0.34;
   const target = landings().find(l => dir > 0 ? (y > l - reach && y < l - 1) : (y < l + reach && y > l + 1));
   if (target !== undefined) stepTo(target);
