@@ -2,9 +2,9 @@
 
 *[Español](README.es.md)*
 
-**[Open the app → quirekeep.pages.dev](https://quirekeep.pages.dev)**
+**[Open the app → quirekeep.com](https://quirekeep.com)**
 
-[![Quirekeep's library on a desktop screen](docs/assets/escritorio-biblioteca-claro.png)](https://quirekeep.pages.dev)
+[![Quirekeep's library on a desktop screen](docs/assets/escritorio-biblioteca-claro.png)](https://quirekeep.com)
 
 Quirekeep is a notebook for the things you read, watch and play. **Books** in
 one place, **films and series** in another, **games** in a third, and all
@@ -107,7 +107,10 @@ download. It lives at a web address, and your browser can keep it for you like
 an app: with its own icon, opening on its own, and working even with no
 internet.
 
-> **The address: https://quirekeep.pages.dev**
+> **The address: https://quirekeep.com**
+
+The first time you open it in a browser you see what Quirekeep is, with a
+button to start. After that it opens straight into your library.
 
 **On an Android phone** — open the address in Chrome. Tap the three dots at
 the top right, then *Install app* (on older phones it says *Add to Home
@@ -125,6 +128,14 @@ normal tab.
 
 **If you cannot see the install option**, you are probably in a private or
 incognito window. Open a normal one.
+
+**If you used it at quirekeep.pages.dev or app.quirekeep.com**, your library
+is still there, but quirekeep.com starts empty: the browser keeps the data of
+each address apart. Open the old address and tap *Download a backup* in the
+notice at the top. Then open quirekeep.com, go to *Profile*, tap *Restore* and
+choose that file. If you have already added titles at quirekeep.com, tap
+*Merge* instead, so you keep them. If you had installed the app from the old
+address, install it again from the new one.
 
 ### Once it is installed
 

@@ -2,9 +2,9 @@
 
 *[English](README.md)*
 
-**[Abrir la app → quirekeep.pages.dev](https://quirekeep.pages.dev)**
+**[Abrir la app → quirekeep.com](https://quirekeep.com)**
 
-[![La biblioteca de Quirekeep en una pantalla de escritorio](docs/assets/escritorio-biblioteca-claro.png)](https://quirekeep.pages.dev)
+[![La biblioteca de Quirekeep en una pantalla de escritorio](docs/assets/escritorio-biblioteca-claro.png)](https://quirekeep.com)
 
 Quirekeep es una libreta para lo que lees, ves y juegas. Los **libros** en un
 sitio, las **películas y series** en otro, los **juegos** en un tercero, y los
@@ -105,7 +105,10 @@ descargar. Vive en una dirección web, y tu navegador puede guardártela como si
 fuera una app: con su icono, abriéndose sola y funcionando incluso sin
 internet.
 
-> **La dirección: https://quirekeep.pages.dev**
+> **La dirección: https://quirekeep.com**
+
+La primera vez que la abres en un navegador ves qué es Quirekeep, con un botón
+para empezar. Desde entonces se abre directamente en tu biblioteca.
 
 **En un móvil Android** — abre la dirección en Chrome. Toca los tres puntos de
 arriba a la derecha y luego *Instalar aplicación* (en móviles antiguos pone
@@ -123,6 +126,14 @@ normal.
 
 **Si no ves la opción de instalar**, seguramente estás en una ventana privada
 o de incógnito. Abre una normal.
+
+**Si la usabas en quirekeep.pages.dev o en app.quirekeep.com**, tu biblioteca
+sigue allí, pero quirekeep.com empieza vacía: el navegador guarda los datos de
+cada dirección por separado. Abre la dirección antigua y pulsa *Descargar
+copia* en el aviso de arriba. Luego abre quirekeep.com, entra en *Perfil*,
+pulsa *Restaurar* y elige ese archivo. Si ya has añadido títulos en
+quirekeep.com, pulsa *Combinar* en su lugar, para no perderlos. Si tenías la
+app instalada desde la dirección antigua, vuelve a instalarla desde la nueva.
 
 ### Una vez instalada
 
