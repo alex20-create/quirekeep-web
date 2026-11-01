@@ -2,9 +2,9 @@
 
 *[English](README.md)*
 
-**[Abrir la app → app.quirekeep.com](https://app.quirekeep.com)**
+**[Abrir la app → quirekeep.com](https://quirekeep.com)**
 
-[![La biblioteca de Quirekeep en una pantalla de escritorio](docs/assets/escritorio-biblioteca-claro.png)](https://app.quirekeep.com)
+[![La biblioteca de Quirekeep en una pantalla de escritorio](docs/assets/escritorio-biblioteca-claro.png)](https://quirekeep.com)
 
 Quirekeep es una libreta para lo que lees, ves y juegas. Los **libros** en un
 sitio, las **películas y series** en otro, los **juegos** en un tercero, y los
@@ -105,7 +105,7 @@ descargar. Vive en una dirección web, y tu navegador puede guardártela como si
 fuera una app: con su icono, abriéndose sola y funcionando incluso sin
 internet.
 
-> **La dirección: https://app.quirekeep.com**
+> **La dirección: https://quirekeep.com**
 
 **En un móvil Android** — abre la dirección en Chrome. Toca los tres puntos de
 arriba a la derecha y luego *Instalar aplicación* (en móviles antiguos pone

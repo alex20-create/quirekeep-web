@@ -2,9 +2,9 @@
 
 *[Español](README.es.md)*
 
-**[Open the app → app.quirekeep.com](https://app.quirekeep.com)**
+**[Open the app → quirekeep.com](https://quirekeep.com)**
 
-[![Quirekeep's library on a desktop screen](docs/assets/escritorio-biblioteca-claro.png)](https://app.quirekeep.com)
+[![Quirekeep's library on a desktop screen](docs/assets/escritorio-biblioteca-claro.png)](https://quirekeep.com)
 
 Quirekeep is a notebook for the things you read, watch and play. **Books** in
 one place, **films and series** in another, **games** in a third, and all
@@ -107,7 +107,7 @@ download. It lives at a web address, and your browser can keep it for you like
 an app: with its own icon, opening on its own, and working even with no
 internet.
 
-> **The address: https://app.quirekeep.com**
+> **The address: https://quirekeep.com**
 
 **On an Android phone** — open the address in Chrome. Tap the three dots at
 the top right, then *Install app* (on older phones it says *Add to Home
