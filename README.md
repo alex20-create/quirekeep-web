@@ -109,6 +109,9 @@ internet.
 
 > **The address: https://quirekeep.com**
 
+The first time you open it in a browser you see what Quirekeep is, with a
+button to start. After that it opens straight into your library.
+
 **On an Android phone** — open the address in Chrome. Tap the three dots at
 the top right, then *Install app* (on older phones it says *Add to Home
 screen*). Say yes.
@@ -125,6 +128,14 @@ normal tab.
 
 **If you cannot see the install option**, you are probably in a private or
 incognito window. Open a normal one.
+
+**If you used it at quirekeep.pages.dev or app.quirekeep.com**, your library
+is still there, but quirekeep.com starts empty: the browser keeps the data of
+each address apart. Open the old address and tap *Download a backup* in the
+notice at the top. Then open quirekeep.com, go to *Profile*, tap *Restore* and
+choose that file. If you have already added titles at quirekeep.com, tap
+*Merge* instead, so you keep them. If you had installed the app from the old
+address, install it again from the new one.
 
 ### Once it is installed
 
