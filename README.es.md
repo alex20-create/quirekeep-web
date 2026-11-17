@@ -198,12 +198,13 @@ Solo de fuentes libres y gratuitas que no piden cuenta:
   duración, el idioma y el reparto.
 - **Wikipedia** para el resumen corto, en tu idioma.
 - **TVMaze** para las temporadas y episodios de una serie, con la fecha en que
-  sale cada uno, y los personajes de su reparto.
+  sale cada uno, los personajes de su reparto y su póster.
 
-No hay ninguna fuente gratuita de portadas para películas, series y juegos, así
-que esos enseñan una tarjeta de color con el título. En los móviles que lo
-permiten, puedes escanear el código de barras de un libro con la cámara en vez
-de escribir su número.
+Las carátulas de los juegos se cargan desde Steam, para los que se venden
+allí. No hay ninguna fuente gratuita de carteles de películas, así que esas
+enseñan una tarjeta de color con el título, igual que un juego del que Steam
+no tiene carátula. En los móviles que lo permiten, puedes escanear el código
+de barras de un libro con la cámara en vez de escribir su número.
 
 ---
 

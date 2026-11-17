@@ -201,11 +201,12 @@ Only from free, open sources that need no account:
   length, the language and the cast.
 - **Wikipedia** for the short summary, in your language.
 - **TVMaze** for the seasons and episodes of a series, with the date each one
-  comes out, and the characters in its cast.
+  comes out, the characters in its cast, and its poster.
 
-There is no free source of covers for films, series and games, so those show a
-coloured card with the title instead. On phones that allow it, you can scan a
-book's barcode with the camera instead of typing its number.
+The covers of games load from Steam, for the games sold there. There is no
+free source of posters for films, so those show a coloured card with the title
+instead, as does a game Steam has no cover for. On phones that allow it, you
+can scan a book's barcode with the camera instead of typing its number.
 
 ---
 
